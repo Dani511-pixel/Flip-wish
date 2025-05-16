@@ -157,14 +157,14 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
 
         <div className="p-6 bg-gray-50 flex flex-col justify-center items-center">
           <div className="flex items-center justify-center w-full">
-            <Button 
-              variant="ghost" 
-              className="mx-2 sm:mx-4 text-gray-500 hover:text-primary"
+            <button 
+              className="mx-2 sm:mx-4 text-gray-500 hover:text-primary bg-transparent p-2 rounded hover:bg-gray-100 transition-colors duration-200"
               onClick={goToPrevious}
               disabled={currentIndex === -1 || totalMessages <= 1}
+              style={{opacity: (currentIndex === -1 || totalMessages <= 1) ? 0.5 : 1}}
             >
               <ChevronLeft className="h-6 w-6" />
-            </Button>
+            </button>
             
             <div className="flip-card w-64 sm:w-80 md:w-96 h-auto aspect-[4/5] perspective-1000">
               <AnimatePresence initial={false} custom={direction}>
@@ -301,13 +301,12 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
               </AnimatePresence>
             </div>
             
-            <Button 
-              variant="default" 
-              className="mx-2 sm:mx-4 z-10"
+            <button 
+              className="mx-2 sm:mx-4 z-10 bg-primary text-white p-2 rounded hover:bg-primary/90 transition-colors duration-200"
               onClick={goToNext}
             >
               <ChevronRight className="h-6 w-6" />
-            </Button>
+            </button>
           </div>
         </div>
         
@@ -320,19 +319,21 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
             )}
           </div>
           <div className="flex space-x-3">
-            <Button 
-              variant="outline" 
-              size="sm"
+            <button 
+              className="inline-flex items-center justify-center gap-2 h-9 px-3 py-2 text-sm rounded border border-gray-300 bg-white hover:bg-gray-100 transition-colors duration-200"
               onClick={toggleAutoPlay}
               disabled={totalMessages <= 1}
+              style={{opacity: totalMessages <= 1 ? 0.5 : 1}}
             >
-              <Play className="h-4 w-4 mr-1" />
+              <Play className="h-4 w-4" />
               {isPlaying ? "Pause" : "Auto Play"}
-            </Button>
-            <Button size="sm">
-              <Download className="h-4 w-4 mr-1" />
+            </button>
+            <button 
+              className="inline-flex items-center justify-center gap-2 h-9 px-3 py-2 text-sm rounded bg-primary text-white hover:bg-primary/90 transition-colors duration-200"
+            >
+              <Download className="h-4 w-4" />
               Download
-            </Button>
+            </button>
           </div>
         </div>
       </DialogContent>
