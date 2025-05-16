@@ -140,7 +140,7 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-4xl p-0 overflow-hidden" aria-describedby="flipbook-description">
-        <DialogHeader className={`text-white px-6 py-4 ${getGradient()}`}>
+        <DialogHeader className="bg-white text-gray-800 px-6 py-4 border-b">
           <div className="flex justify-between items-center">
             <DialogTitle className="text-xl font-semibold">{title}</DialogTitle>
             <Button 
@@ -238,7 +238,10 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
                             <div className="h-px w-40 bg-gray-200 relative mb-6">
                               <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full border-2 border-primary"></div>
                             </div>
-                            <div className="text-center">
+                            <div 
+                              className="text-center cursor-pointer" 
+                              onClick={goToNext}
+                            >
                               <div className="animate-bounce mt-2 bg-primary text-white p-3 rounded-full">
                                 <ChevronRight className="h-6 w-6" />
                               </div>
