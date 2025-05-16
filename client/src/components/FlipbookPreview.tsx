@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Message } from "@shared/schema";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -37,7 +37,7 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
   };
 
   // Auto-play effect
-  useState(() => {
+  useEffect(() => {
     let interval: any = null;
     
     if (isPlaying) {
