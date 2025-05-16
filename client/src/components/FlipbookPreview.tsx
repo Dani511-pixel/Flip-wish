@@ -139,7 +139,7 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-4xl p-0 overflow-hidden" aria-describedby="flipbook-description">
+      <DialogContent className="w-full max-w-[90vw] sm:max-w-2xl md:max-w-3xl lg:max-w-4xl p-0 overflow-hidden" aria-describedby="flipbook-description">
         <DialogHeader className="bg-white text-gray-800 px-6 py-4 border-b">
           <div className="flex justify-between items-center">
             <DialogTitle className="text-xl font-semibold">{title}</DialogTitle>
@@ -154,18 +154,18 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
           </div>
         </DialogHeader>
 
-        <div className="p-6 bg-gray-50 flex justify-center items-center">
-          <div className="flex items-center">
+        <div className="p-6 bg-gray-50 flex flex-col justify-center items-center">
+          <div className="flex items-center justify-center w-full">
             <Button 
               variant="ghost" 
-              className="mr-4 text-gray-500 hover:text-primary"
+              className="mx-4 text-gray-500 hover:text-primary"
               onClick={goToPrevious}
               disabled={currentIndex === -1 || totalMessages <= 1}
             >
               <ChevronLeft className="h-6 w-6" />
             </Button>
             
-            <div className="flip-card w-80 h-96 perspective-1000">
+            <div className="flip-card w-full sm:w-80 md:w-96 h-auto aspect-[3/4] perspective-1000">
               <AnimatePresence initial={false} custom={direction}>
                 {currentIndex === -1 ? (
                   // Cover Page
@@ -302,7 +302,7 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
             
             <Button 
               variant="default" 
-              className="ml-4"
+              className="mx-4"
               onClick={goToNext}
             >
               <ChevronRight className="h-6 w-6" />

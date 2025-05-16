@@ -15,7 +15,7 @@ const MessageCard = ({ message, className = "", isFlipbook = false }: MessageCar
     <Card className={`overflow-hidden border border-gray-100 hover:shadow-md transition ${className} ${isFlipbook ? 'h-full' : ''}`}>
       <CardContent className={`p-4 ${isFlipbook ? 'h-full flex flex-col' : ''}`}>
         <div className={`${isFlipbook ? 'flex-grow flex items-center justify-center p-4' : ''}`}>
-          <p className={`${isFlipbook ? 'text-center' : ''} text-gray-800 mb-4`}>
+          <p className={`${isFlipbook ? 'text-center text-lg' : ''} text-gray-800 mb-4`}>
             "{message.content}"
           </p>
         </div>
