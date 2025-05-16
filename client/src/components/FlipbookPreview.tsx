@@ -38,7 +38,7 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
 
   // Auto-play effect
   useState(() => {
-    let interval: NodeJS.Timeout;
+    let interval: any = null;
     
     if (isPlaying) {
       interval = setInterval(() => {
@@ -49,7 +49,7 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
     return () => {
       if (interval) clearInterval(interval);
     };
-  });
+  }, [isPlaying, goToNext]);
 
   const variants = {
     enter: (direction: number) => {

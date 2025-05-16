@@ -6,6 +6,7 @@ import Home from "@/pages/Home";
 import CreateCollection from "@/pages/CreateCollection";
 import Dashboard from "@/pages/Dashboard";
 import MessageSubmission from "@/pages/MessageSubmission";
+import ViewFlipbook from "@/pages/ViewFlipbook";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 
@@ -19,6 +20,9 @@ function Router() {
       <Route path="/create-collection" component={CreateCollection} />
       <Route path="/submit/:slug">
         {params => <MessageSubmission slug={params.slug} />}
+      </Route>
+      <Route path="/flipbook/:id">
+        {params => <ViewFlipbook id={parseInt(params.id)} />}
       </Route>
       <Route path="/:rest*" component={NotFound} />
     </Switch>

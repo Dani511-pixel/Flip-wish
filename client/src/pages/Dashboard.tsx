@@ -148,11 +148,19 @@ const Dashboard = () => {
                   </span>
                 </div>
               </div>
-              <div className="text-center">
-                <div className="text-4xl font-bold text-primary">
-                  {currentCollection.messageCount}
+              <div className="flex items-center gap-6">
+                <div className="text-center">
+                  <div className="text-4xl font-bold text-primary">
+                    {currentCollection.messageCount}
+                  </div>
+                  <div className="text-sm text-gray-600">Messages collected</div>
                 </div>
-                <div className="text-sm text-gray-600">Messages collected</div>
+                <Link href="/flipbook/1">
+                  <Button>
+                    <BookOpen className="mr-2 h-4 w-4" />
+                    View Flipbook
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>
