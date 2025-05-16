@@ -489,6 +489,73 @@ const Dashboard = () => {
           </Card>
         </div>
       </div>
+      
+      {/* Send FlipWish Greeting Dialog */}
+      <Dialog open={sendModalOpen} onOpenChange={setSendModalOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Send Your FlipWish Greeting</DialogTitle>
+            <DialogDescription>
+              Share your personalized greeting via email or WhatsApp.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="flex space-x-2 mb-4">
+            <Button
+              variant={shareMethod === "email" ? "default" : "outline"}
+              onClick={() => setShareMethod("email")}
+              className="flex-1"
+            >
+              <Mail className="mr-2 h-4 w-4" />
+              Email
+            </Button>
+            <Button
+              variant={shareMethod === "whatsapp" ? "default" : "outline"}
+              onClick={() => setShareMethod("whatsapp")}
+              className="flex-1"
+            >
+              <Phone className="mr-2 h-4 w-4" />
+              WhatsApp
+            </Button>
+          </div>
+          
+          <div className="space-y-4 py-4">
+            {shareMethod === "email" ? (
+              <div className="space-y-2">
+                <Label htmlFor="email">Recipient Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="friend@example.com"
+                  value={recipientEmail}
+                  onChange={(e) => setRecipientEmail(e.target.value)}
+                />
+              </div>
+            ) : (
+              <div className="space-y-2">
+                <Label htmlFor="phone">Recipient Phone Number</Label>
+                <Input
+                  id="phone"
+                  type="tel"
+                  placeholder="+1234567890"
+                  value={recipientPhone}
+                  onChange={(e) => setRecipientPhone(e.target.value)}
+                />
+                <p className="text-xs text-gray-500">
+                  Include country code (e.g., +1 for USA)
+                </p>
+              </div>
+            )}
+          </div>
+          
+          <DialogFooter>
+            <Button onClick={handleSendFlipWish} className="w-full">
+              <Send className="mr-2 h-4 w-4" />
+              Send Greeting
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
