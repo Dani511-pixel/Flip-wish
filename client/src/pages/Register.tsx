@@ -13,9 +13,12 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  FormDescription,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 type FormData = {
   username: string;
@@ -23,6 +26,7 @@ type FormData = {
   confirmPassword: string;
   name: string;
   email: string;
+  marketingOptIn: boolean;
 };
 
 const Register = () => {
@@ -38,6 +42,7 @@ const Register = () => {
       confirmPassword: "",
       name: "",
       email: "",
+      marketingOptIn: false,
     },
   });
 
@@ -120,6 +125,10 @@ const Register = () => {
                     <FormControl>
                       <Input type="password" placeholder="Create a password" {...field} />
                     </FormControl>
+                    <FormDescription>
+                      Password must have at least 8 characters, one uppercase letter, 
+                      one lowercase letter, one number, and one special character.
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -134,6 +143,30 @@ const Register = () => {
                     <FormControl>
                       <Input type="password" placeholder="Confirm your password" {...field} />
                     </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="marketingOptIn"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <div className="space-y-1 leading-none">
+                      <FormLabel>
+                        Marketing communications
+                      </FormLabel>
+                      <FormDescription>
+                        Receive email updates about new features, tips, and special offers.
+                      </FormDescription>
+                    </div>
                     <FormMessage />
                   </FormItem>
                 )}

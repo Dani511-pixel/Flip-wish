@@ -60,6 +60,7 @@ export class MemStorage implements IStorage {
       password: "password",
       email: "demo@example.com",
       name: "Demo User",
+      marketingOptIn: false,
       createdAt: new Date()
     });
     
