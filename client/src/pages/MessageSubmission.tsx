@@ -112,7 +112,7 @@ const MessageSubmission = ({ slug }: MessageSubmissionProps) => {
       <div className="max-w-2xl mx-auto px-4 py-12 text-center">
         <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-6 rounded mb-8">
           <h2 className="text-2xl font-bold mb-2">Thank You!</h2>
-          <p>Your message has been submitted successfully.</p>
+          <p>Thank you for leaving a message. It's already making its way to its forever home in {collection.title}'s FlipWish book.</p>
         </div>
         <Button
           variant="outline"
