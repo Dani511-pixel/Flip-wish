@@ -313,7 +313,11 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
         
         <div className="bg-white px-6 py-4 flex justify-between items-center">
           <div className="text-sm text-gray-500">
-            Card <span className="font-medium">{currentIndex + 1}</span> of <span className="font-medium">{totalMessages}</span>
+            {currentIndex === -1 ? (
+              <span>Cover Page</span>
+            ) : (
+              <>Card <span className="font-medium">{currentIndex + 1}</span> of <span className="font-medium">{totalMessages}</span></>
+            )}
           </div>
           <div className="flex space-x-3">
             <Button 
