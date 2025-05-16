@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { 
   Card, 
   CardContent, 
@@ -9,6 +11,14 @@ import {
   CardHeader, 
   CardTitle 
 } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle
+} from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   MessageSquare, 
@@ -19,7 +29,10 @@ import {
   Clock, 
   Download,
   Copy,
-  Eye
+  Eye,
+  Mail,
+  Send,
+  Phone
 } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
@@ -98,6 +111,10 @@ const mockMessages = [
 const Dashboard = () => {
   const { toast } = useToast();
   const [activeCollection, setActiveCollection] = useState(1); // Default to first collection
+  const [sendModalOpen, setSendModalOpen] = useState(false);
+  const [recipientEmail, setRecipientEmail] = useState("");
+  const [recipientPhone, setRecipientPhone] = useState("");
+  const [shareMethod, setShareMethod] = useState<"email" | "whatsapp">("email");
   
   // Filter messages for the active collection
   const activeCollectionMessages = mockMessages.filter(
@@ -125,6 +142,39 @@ const Dashboard = () => {
       title: "Link copied!",
       description: "Share this link to collect messages.",
     });
+  };
+  
+  const handleSendFlipWish = () => {
+    if (shareMethod === "email" && recipientEmail) {
+      // In a real app, this would send an email via API
+      const subject = encodeURIComponent(`View your FlipWish greeting: ${currentCollection?.title}`);
+      const body = encodeURIComponent(`Hello,\n\nYou've received a FlipWish greeting from a friend. View it here: ${window.location.origin}/flipbook/1\n\nEnjoy!`);
+      window.open(`mailto:${recipientEmail}?subject=${subject}&body=${body}`);
+      toast({
+        title: "Email ready to send!",
+        description: "Your email client has been opened with a pre-filled message.",
+      });
+    } else if (shareMethod === "whatsapp" && recipientPhone) {
+      // Format the phone number by removing any non-digit characters
+      const formattedPhone = recipientPhone.replace(/\D/g, '');
+      const message = encodeURIComponent(`You've received a FlipWish greeting! View it here: ${window.location.origin}/flipbook/1`);
+      window.open(`https://wa.me/${formattedPhone}?text=${message}`);
+      toast({
+        title: "WhatsApp ready!",
+        description: "WhatsApp will open with your message.",
+      });
+    } else {
+      toast({
+        title: "Missing information",
+        description: shareMethod === "email" ? "Please enter a valid email address." : "Please enter a valid phone number.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    setSendModalOpen(false);
+    setRecipientEmail("");
+    setRecipientPhone("");
   };
   
   return (
@@ -161,6 +211,13 @@ const Dashboard = () => {
                     View Flipbook
                   </Button>
                 </Link>
+                <Button 
+                  variant="outline" 
+                  onClick={() => setSendModalOpen(true)}
+                >
+                  <Share2 className="mr-2 h-4 w-4" />
+                  Send Greeting
+                </Button>
               </div>
             </div>
           </div>
