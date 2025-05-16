@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Message } from "@shared/schema";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ChevronLeft, ChevronRight, Play, Download, X, Book } from "lucide-react";
+import { ChevronLeft, ChevronRight, Play, Download, X } from "lucide-react";
 import MessageCard from "./MessageCard";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -27,7 +25,7 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
   const [customDate, setCustomDate] = useState(new Date().toLocaleDateString());
 
   const totalMessages = messages.length;
-  const currentMessage = totalMessages > 0 ? messages[currentIndex] : null;
+  const currentMessage = totalMessages > 0 && currentIndex >= 0 ? messages[currentIndex] : null;
 
   const goToPrevious = () => {
     setDirection(-1);
@@ -123,27 +121,17 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
     }
   };
 
-  // Create a gradient based on theme
-  const getGradient = () => {
-    switch (theme) {
-      case "premium":
-        return "bg-gradient-to-r from-purple-500 to-pink-500";
-      case "elegant":
-        return "bg-gradient-to-r from-blue-500 to-cyan-500";
-      case "celebration":
-        return "bg-gradient-to-r from-amber-500 to-orange-500";
-      default:
-        return "bg-gradient-to-r from-primary to-blue-600";
-    }
-  };
+  if (!isOpen) return null;
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="w-full max-w-[90vw] sm:max-w-2xl md:max-w-3xl lg:max-w-4xl p-0 overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+      <div className="w-[90vw] max-w-4xl bg-white rounded-lg overflow-hidden flex flex-col shadow-xl">
+        {/* Header */}
         <div className="bg-white text-gray-800 px-6 py-4 border-b flex justify-between items-center">
           <h2 className="text-xl font-semibold">{title}</h2>
           <button 
-            className="text-gray-500 hover:bg-gray-100 p-2 rounded"
+            type="button"
+            className="text-gray-500 hover:bg-gray-100 p-2 rounded transition-colors duration-200"
             onClick={onClose}
           >
             <X className="h-4 w-4" />
@@ -154,6 +142,7 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
         <div className="p-6 bg-gray-50 flex flex-col justify-center items-center flex-grow">
           <div className="flex items-center justify-center w-full">
             <button 
+              type="button"
               className="mx-2 sm:mx-4 text-gray-500 hover:text-primary bg-transparent p-2 rounded hover:bg-gray-100 transition-colors duration-200"
               onClick={goToPrevious}
               disabled={currentIndex === -1 || totalMessages <= 1}
@@ -212,6 +201,7 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
                                 </select>
                               </div>
                               <button 
+                                type="button"
                                 onClick={() => setEditingTitle(false)}
                                 className="w-full bg-primary text-white p-2 rounded text-sm"
                               >
@@ -256,6 +246,7 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
                                 autoFocus
                               />
                               <button 
+                                type="button"
                                 onClick={() => setEditingDate(false)}
                                 className="w-full bg-primary text-white p-2 rounded text-sm"
                               >
@@ -296,6 +287,7 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
             </div>
             
             <button 
+              type="button"
               className="mx-2 sm:mx-4 z-10 bg-primary text-white p-2 rounded hover:bg-primary/90 transition-colors duration-200"
               onClick={goToNext}
             >
@@ -315,21 +307,25 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
           </div>
           <div className="flex space-x-3">
             <button 
-              onClick={toggleAutoPlay} 
+              type="button"
+              onClick={toggleAutoPlay}
               className="inline-flex items-center gap-2 px-3 py-2 text-sm rounded border border-gray-300 bg-white hover:bg-gray-100"
               style={{opacity: totalMessages <= 1 ? 0.5 : 1}}
             >
               <Play className="h-4 w-4" />
               <span>{isPlaying ? "Pause" : "Auto Play"}</span>
             </button>
-            <button className="inline-flex items-center gap-2 px-3 py-2 text-sm rounded bg-primary text-white hover:bg-primary/90">
+            <button 
+              type="button"
+              className="inline-flex items-center gap-2 px-3 py-2 text-sm rounded bg-primary text-white hover:bg-primary/90"
+            >
               <Download className="h-4 w-4" />
               <span>Download</span>
             </button>
           </div>
         </div>
-      </DialogContent>
-    </Dialog>
+      </div>
+    </div>
   );
 };
 
