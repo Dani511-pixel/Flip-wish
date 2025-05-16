@@ -88,6 +88,19 @@ export class MemStorage implements IStorage {
       createdAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000), // 10 days ago
     });
     
+    this.collections.set(3, {
+      id: 3,
+      title: "Birthday Wishes Collection",
+      type: "birthday",
+      slug: "birthday-wishes",
+      status: "active",
+      userId: 1,
+      deadline: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days from now
+      goal: null,
+      createdAt: new Date(),
+    });
+    this.collectionCurrentId = 3;
+    
     // Add some demo messages
     this.messages.set(1, {
       id: 1,
