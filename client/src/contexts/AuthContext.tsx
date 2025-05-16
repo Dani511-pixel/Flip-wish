@@ -33,16 +33,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const { toast } = useToast();
 
-  const { isLoading, refetch } = useQuery({
+  const { isLoading } = useQuery({
     queryKey: ["/api/auth/user"],
-    onSuccess: (data) => {
-      if (data?.user) {
-        setUser(data.user);
+    queryFn: async () => {
+      try {
+        const res = await fetch("/api/auth/user");
+        if (!res.ok) {
+          throw new Error("Failed to fetch user data");
+        }
+        const data = await res.json();
+        if (data?.user) {
+          setUser(data.user);
+        }
+        return data;
+      } catch (error) {
+        console.error("Error fetching user:", error);
+        setUser(null);
+        throw error;
       }
     },
-    onError: () => {
-      setUser(null);
-    },
+    retry: false,
+    refetchOnWindowFocus: false,
   });
 
   const loginMutation = useMutation({

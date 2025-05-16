@@ -10,6 +10,8 @@ import ViewFlipbook from "@/pages/ViewFlipbook";
 import Register from "@/pages/Register";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 function Router() {
   return (
@@ -30,18 +32,25 @@ function Router() {
   );
 }
 
+// Create a new query client
+const queryClient = new QueryClient();
+
 function App() {
   return (
-    <TooltipProvider>
-      <Toaster />
-      <div className="flex flex-col min-h-screen">
-        <NavBar />
-        <main className="flex-grow">
-          <Router />
-        </main>
-        <Footer />
-      </div>
-    </TooltipProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <TooltipProvider>
+          <Toaster />
+          <div className="flex flex-col min-h-screen">
+            <NavBar />
+            <main className="flex-grow">
+              <Router />
+            </main>
+            <Footer />
+          </div>
+        </TooltipProvider>
+      </AuthProvider>
+    </QueryClientProvider>
   );
 }
 

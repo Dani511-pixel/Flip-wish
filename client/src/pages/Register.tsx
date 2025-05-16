@@ -4,8 +4,9 @@ import { Link } from "wouter";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema } from "@shared/schema";
-import { useAuth } from "@/contexts/AuthContext";
+import { useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 import {
   Form,
   FormControl,
@@ -31,7 +32,7 @@ type FormData = {
 
 const Register = () => {
   const [, navigate] = useLocation();
-  const { register, isLoading } = useAuth();
+  const { toast } = useToast();
   const [error, setError] = useState<string | null>(null);
 
   const form = useForm<FormData>({
@@ -46,14 +47,38 @@ const Register = () => {
     },
   });
 
-  const onSubmit = async (data: FormData) => {
-    try {
-      setError(null);
-      await register(data);
+  const registerMutation = useMutation({
+    mutationFn: async (userData: FormData) => {
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Registration failed");
+      }
+      
+      return response.json();
+    },
+    onSuccess: (data) => {
+      toast({
+        title: "Registration successful",
+        description: `Welcome, ${data.user?.name || 'new user'}!`,
+      });
       navigate("/dashboard");
-    } catch (err: any) {
-      setError(err.message || "Registration failed. Please try again.");
-    }
+    },
+    onError: (error: Error) => {
+      setError(error.message || "Registration failed. Please try again.");
+    },
+  });
+
+  const onSubmit = async (data: FormData) => {
+    setError(null);
+    registerMutation.mutate(data);
   };
 
   return (
