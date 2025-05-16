@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Message } from "@shared/schema";
 import { Card, CardContent } from "@/components/ui/card";
-import { ChevronLeft, ChevronRight, Play, Download, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Play, Pause, Download, X } from "lucide-react";
 import MessageCard from "./MessageCard";
 
 interface FlipbookPreviewProps {
@@ -163,7 +163,11 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
               onClick={toggleAutoPlay}
               className="inline-flex items-center gap-2 px-3 py-2 text-sm rounded border border-gray-300 bg-white hover:bg-gray-100"
             >
-              <Play className="h-4 w-4" />
+              {isPlaying ? (
+                <Pause className="h-4 w-4" />
+              ) : (
+                <Play className="h-4 w-4" />
+              )}
               <span>{isPlaying ? "Pause" : "Auto Play"}</span>
             </button>
             <button 
