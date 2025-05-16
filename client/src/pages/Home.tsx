@@ -27,7 +27,7 @@ const Home = () => {
                     Get Started for Free
                   </Button>
                 </Link>
-                <Link href="/login">
+                <Link href="/dashboard">
                   <Button size="lg" variant="outline" className="text-base px-8">
                     Sign In
                   </Button>
