@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Message } from "@shared/schema";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, Play, Download, X } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { ChevronLeft, ChevronRight, Play, Download, X, Book } from "lucide-react";
 import MessageCard from "./MessageCard";
 import { motion, AnimatePresence } from "framer-motion";
 
