@@ -206,8 +206,8 @@ const Register = () => {
         <CardFooter className="flex justify-center">
           <p className="text-sm text-gray-600">
             Already have an account?{" "}
-            <Link href="/login">
-              <a className="text-primary font-medium hover:underline">Login</a>
+            <Link href="/login" className="text-primary font-medium hover:underline">
+              Login
             </Link>
           </p>
         </CardFooter>
