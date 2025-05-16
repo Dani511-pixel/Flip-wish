@@ -137,6 +137,9 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
     }
   };
 
+  // Add a separate state for button visibility
+  const [buttonsVisible, setButtonsVisible] = useState(true);
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="w-full max-w-[90vw] sm:max-w-2xl md:max-w-3xl lg:max-w-4xl p-0 overflow-hidden">
@@ -144,14 +147,12 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
         <DialogHeader className="bg-white text-gray-800 px-6 py-4 border-b">
           <div className="flex justify-between items-center">
             <DialogTitle className="text-xl font-semibold">{title}</DialogTitle>
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="text-white hover:bg-white/20" 
+            <button 
+              className="text-gray-500 hover:bg-gray-100 p-2 rounded"
               onClick={onClose}
             >
               <X className="h-4 w-4" />
-            </Button>
+            </button>
           </div>
         </DialogHeader>
 
@@ -310,33 +311,60 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
           </div>
         </div>
         
-        <div className="bg-white px-6 py-4 w-full border-t border-gray-200">
-          <div className="flex justify-between items-center w-full">
-            <div className="text-sm text-gray-500">
-              {currentIndex === -1 ? (
-                <span>Cover Page</span>
-              ) : (
-                <>Card <span className="font-medium">{currentIndex + 1}</span> of <span className="font-medium">{totalMessages}</span></>
-              )}
-            </div>
-            <div className="flex gap-3">
-              <div 
-                className="inline-flex items-center justify-center gap-2 h-9 px-3 py-2 text-sm font-medium rounded border border-gray-300 bg-white hover:bg-gray-100 cursor-pointer select-none"
-                onClick={toggleAutoPlay}
-                style={{opacity: totalMessages <= 1 ? 0.5 : 1}}
-              >
-                <Play className="h-4 w-4 pointer-events-none" />
-                <span className="pointer-events-none">{isPlaying ? "Pause" : "Auto Play"}</span>
-              </div>
-              <div 
-                className="inline-flex items-center justify-center gap-2 h-9 px-3 py-2 text-sm font-medium rounded bg-primary text-white hover:bg-primary/90 cursor-pointer select-none"
-              >
-                <Download className="h-4 w-4 pointer-events-none" />
-                <span className="pointer-events-none">Download</span>
-              </div>
-            </div>
-          </div>
-        </div>
+        {/* Fixed footer that's always visible */}
+        <table className="w-full bg-white border-t border-gray-200" style={{tableLayout: "fixed"}}>
+          <tbody>
+            <tr>
+              <td className="px-6 py-4 text-sm text-gray-500 w-1/2">
+                {currentIndex === -1 ? (
+                  <span>Cover Page</span>
+                ) : (
+                  <>Card <span className="font-medium">{currentIndex + 1}</span> of <span className="font-medium">{totalMessages}</span></>
+                )}
+              </td>
+              <td className="px-6 py-4 text-right w-1/2">
+                <span 
+                  onClick={toggleAutoPlay}
+                  style={{
+                    display: "inline-block",
+                    padding: "0.5rem 0.75rem",
+                    marginRight: "0.75rem",
+                    fontSize: "0.875rem",
+                    fontWeight: 500,
+                    borderRadius: "0.25rem",
+                    border: "1px solid #e2e8f0",
+                    backgroundColor: "white",
+                    color: "black",
+                    cursor: "pointer",
+                    opacity: totalMessages <= 1 ? 0.5 : 1
+                  }}
+                >
+                  <span style={{display: "inline-flex", alignItems: "center"}}>
+                    <Play className="h-4 w-4 mr-2" />
+                    {isPlaying ? "Pause" : "Auto Play"}
+                  </span>
+                </span>
+                <span 
+                  style={{
+                    display: "inline-block",
+                    padding: "0.5rem 0.75rem",
+                    fontSize: "0.875rem",
+                    fontWeight: 500,
+                    borderRadius: "0.25rem",
+                    backgroundColor: "#0284c7",
+                    color: "white",
+                    cursor: "pointer"
+                  }}
+                >
+                  <span style={{display: "inline-flex", alignItems: "center"}}>
+                    <Download className="h-4 w-4 mr-2" />
+                    Download
+                  </span>
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </DialogContent>
     </Dialog>
   );
