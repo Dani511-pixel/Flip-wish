@@ -27,9 +27,9 @@ const Home = () => {
                     Get Started for Free
                   </Button>
                 </Link>
-                <Link href="/dashboard">
+                <Link href="/register">
                   <Button size="lg" variant="outline" className="text-base px-8">
-                    Sign In
+                    Sign Up
                   </Button>
                 </Link>
               </div>
@@ -236,11 +236,18 @@ const Home = () => {
             <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
               Create your first collection in minutes and start gathering heartfelt messages today.
             </p>
-            <Link href="/create-collection">
-              <Button size="lg" className="text-base px-8">
-                Get Started for Free
-              </Button>
-            </Link>
+            <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+              <Link href="/create-collection">
+                <Button size="lg" className="text-base px-8">
+                  Get Started for Free
+                </Button>
+              </Link>
+              <Link href="/register">
+                <Button size="lg" variant="outline" className="text-base px-8">
+                  Sign Up
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
