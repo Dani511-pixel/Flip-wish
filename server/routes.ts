@@ -127,9 +127,38 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/auth/login", passport.authenticate("local"), (req, res) => {
-    const { password, ...userWithoutPassword } = req.user as any;
-    res.json({ user: userWithoutPassword });
+  app.post("/api/auth/login", (req, res, next) => {
+    try {
+      // Validate request body first
+      const { username, password } = loginSchema.parse(req.body);
+      
+      // Use passport authenticate with custom callback
+      passport.authenticate('local', (err: any, user: any, info: any) => {
+        if (err) {
+          return res.status(500).json({ message: "Authentication error" });
+        }
+        
+        if (!user) {
+          return res.status(401).json({ message: info?.message || "Invalid username or password" });
+        }
+        
+        // Log in the user
+        req.login(user, (loginErr) => {
+          if (loginErr) {
+            return res.status(500).json({ message: "Login error" });
+          }
+          
+          // Remove password from response
+          const { password, ...userWithoutPassword } = user;
+          return res.json({ user: userWithoutPassword });
+        });
+      })(req, res, next);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: "Validation error", errors: error.errors });
+      }
+      return res.status(400).json({ message: "Invalid login data" });
+    }
   });
 
   app.post("/api/auth/logout", (req, res) => {
