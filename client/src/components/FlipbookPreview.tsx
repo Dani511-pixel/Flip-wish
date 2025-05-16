@@ -209,10 +209,16 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
                             </h1>
                           )}
                           
-                          {/* Decorative element */}
-                          <div className="my-6 flex justify-center">
-                            <div className="h-px w-40 bg-gray-200 relative">
+                          {/* Decorative element with right arrow */}
+                          <div className="my-6 flex flex-col items-center">
+                            <div className="h-px w-40 bg-gray-200 relative mb-6">
                               <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full border-2 border-primary"></div>
+                            </div>
+                            <div className="text-center">
+                              <div className="animate-bounce mt-2 bg-primary text-white p-3 rounded-full">
+                                <ChevronRight className="h-6 w-6" />
+                              </div>
+                              <p className="text-sm text-gray-500 mt-2">Click to start</p>
                             </div>
                           </div>
                         </div>
@@ -270,10 +276,9 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
             </div>
             
             <Button 
-              variant="ghost" 
-              className="ml-4 text-gray-500 hover:text-primary"
+              variant="default" 
+              className="ml-4"
               onClick={goToNext}
-              disabled={totalMessages <= 1 && currentIndex !== -1}
             >
               <ChevronRight className="h-6 w-6" />
             </Button>
