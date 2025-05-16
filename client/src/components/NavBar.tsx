@@ -35,7 +35,13 @@ const NavBar = () => {
 
           {/* User Menu (Desktop) */}
           <div className="hidden sm:ml-6 sm:flex sm:items-center">
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-3">
+              <Link href="/login">
+                <Button variant="outline">Log in</Button>
+              </Link>
+              <Link href="/register">
+                <Button variant="outline">Sign up</Button>
+              </Link>
               <Link href="/create-collection">
                 <Button>Get Started For Free</Button>
               </Link>
@@ -79,6 +85,22 @@ const NavBar = () => {
         {/* Mobile menu user section */}
         <div className="pt-4 pb-3 border-t border-gray-200">
           <div className="px-2 space-y-1">
+            <Link href="/login">
+              <span
+                className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-100"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Log in
+              </span>
+            </Link>
+            <Link href="/register">
+              <span
+                className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:bg-gray-100"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Sign up
+              </span>
+            </Link>
             <Link href="/create-collection">
               <span
                 className="block px-3 py-2 rounded-md text-base font-medium text-primary hover:bg-gray-100"
