@@ -16,7 +16,7 @@ function Router() {
       <Route path="/login" component={Home} />
       <Route path="/register" component={Home} />
       <Route path="/create-collection" component={CreateCollection} />
-      <Route component={NotFound} />
+      <Route path="/:rest*" component={NotFound} />
     </Switch>
   );
 }
