@@ -237,6 +237,7 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
                             <div className="h-px w-40 bg-gray-200 relative mb-6">
                               <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full border-2 border-primary"></div>
                             </div>
+                            <p className="text-sm text-gray-500 mb-3 text-center">Click to start</p>
                             <div 
                               className="text-center cursor-pointer mx-auto" 
                               onClick={goToNext}
@@ -244,7 +245,6 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
                               <div className="animate-bounce mt-2 bg-primary text-white p-3 rounded-full mx-auto">
                                 <ChevronRight className="h-6 w-6" />
                               </div>
-                              <p className="text-sm text-gray-500 mt-2 text-center">Click to start</p>
                             </div>
                           </div>
                         </div>
