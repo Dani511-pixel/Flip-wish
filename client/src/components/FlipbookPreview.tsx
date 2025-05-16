@@ -36,7 +36,18 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
 
   const goToNext = () => {
     setDirection(1);
-    setCurrentIndex((prev) => (prev === totalMessages - 1 ? -1 : prev + 1));
+    
+    // Always move sequentially through messages
+    if (currentIndex === -1) {
+      // From cover page, always go to first message
+      setCurrentIndex(0);
+    } else if (currentIndex < totalMessages - 1) {
+      // Move to next message
+      setCurrentIndex(currentIndex + 1);
+    } else {
+      // From last message, go back to cover
+      setCurrentIndex(-1);
+    }
   };
   
   // Font options
@@ -59,20 +70,33 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
     setIsPlaying(!isPlaying);
   };
 
-  // Auto-play effect
+  // Auto-play effect - scroll through messages sequentially
   useEffect(() => {
     let interval: any = null;
     
     if (isPlaying) {
       interval = setInterval(() => {
-        goToNext();
+        // Sequentially move through messages and then back to cover
+        if (currentIndex === -1) {
+          // Start at first message
+          setDirection(1);
+          setCurrentIndex(0);
+        } else if (currentIndex < totalMessages - 1) {
+          // Go to next message
+          setDirection(1);
+          setCurrentIndex(currentIndex + 1);
+        } else {
+          // Go back to cover
+          setDirection(-1);
+          setCurrentIndex(-1);
+        }
       }, 3000);
     }
     
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isPlaying, goToNext]);
+  }, [isPlaying, currentIndex, totalMessages]);
 
   const variants = {
     enter: (direction: number) => {
