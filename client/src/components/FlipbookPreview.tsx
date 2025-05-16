@@ -21,8 +21,8 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
   const [direction, setDirection] = useState(0);
   const [editingTitle, setEditingTitle] = useState(false);
   const [customTitle, setCustomTitle] = useState(title);
-  const [titleFont, setTitleFont] = useState("serif");
-  const [titleSize, setTitleSize] = useState("2xl");
+  const [titleFont, setTitleFont] = useState("cursive");
+  const [titleSize, setTitleSize] = useState("4xl");
   const [editingDate, setEditingDate] = useState(false);
   const [customDate, setCustomDate] = useState(new Date().toLocaleDateString());
 
@@ -77,21 +77,24 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
   const variants = {
     enter: (direction: number) => {
       return {
-        x: direction > 0 ? 1000 : -1000,
+        x: 1000, // Always enter from right
         opacity: 0,
-        rotateY: direction > 0 ? 45 : -45
+        rotateY: 25,
+        scale: 0.9
       };
     },
     center: {
       x: 0,
       opacity: 1,
-      rotateY: 0
+      rotateY: 0,
+      scale: 1
     },
     exit: (direction: number) => {
       return {
-        x: direction < 0 ? 1000 : -1000,
+        x: -1000, // Always exit to left
         opacity: 0,
-        rotateY: direction < 0 ? 45 : -45
+        rotateY: -25,
+        scale: 0.9
       };
     }
   };
@@ -156,7 +159,7 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
                     className="w-full h-full absolute"
                   >
                     <Card className="h-full overflow-hidden border border-gray-100 shadow-lg">
-                      <CardContent className={`p-4 h-full flex flex-col justify-between bg-gradient-to-b ${getGradient()} bg-opacity-10`}>
+                      <CardContent className="p-4 h-full flex flex-col justify-between bg-white">
                         <div className="flex-grow flex flex-col items-center justify-center p-4">
                           {editingTitle ? (
                             <div className="space-y-4 w-full">
@@ -204,9 +207,11 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
                             </h1>
                           )}
                           
-                          {/* Book icon or cover image */}
-                          <div className="my-6">
-                            <Book className="h-20 w-20 mx-auto text-primary" strokeWidth={1} />
+                          {/* Decorative element */}
+                          <div className="my-6 flex justify-center">
+                            <div className="h-px w-40 bg-gray-200 relative">
+                              <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full border-2 border-primary"></div>
+                            </div>
                           </div>
                         </div>
                         
