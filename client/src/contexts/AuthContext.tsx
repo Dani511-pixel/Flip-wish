@@ -24,6 +24,7 @@ type RegisterData = {
   confirmPassword: string;
   name: string;
   email: string;
+  marketingOptIn: boolean;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);

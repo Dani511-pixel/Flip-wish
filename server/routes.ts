@@ -18,6 +18,7 @@ import MemoryStore from "memorystore";
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import QRCode from "qrcode";
+import bcrypt from "bcryptjs";
 
 declare module 'express-session' {
   interface SessionData {
@@ -86,14 +87,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const validatedData = registerSchema.parse(req.body);
       const { confirmPassword, ...userData } = validatedData;
       
-      const existingUser = await storage.getUserByUsername(userData.username);
-      if (existingUser) {
+      // Check if username already exists
+      const existingUserName = await storage.getUserByUsername(userData.username);
+      if (existingUserName) {
         return res.status(400).json({ message: "Username already exists" });
       }
       
-      const user = await storage.createUser(userData);
+      // Hash the password
+      const salt = await bcrypt.genSalt(12);
+      const hashedPassword = await bcrypt.hash(userData.password, salt);
+      
+      // Create the user with the hashed password
+      const user = await storage.createUser({
+        ...userData,
+        password: hashedPassword
+      });
+      
+      // Remove the password from the response
       const { password, ...userWithoutPassword } = user;
       
+      // Log the user in
       req.login(user, (err) => {
         if (err) {
           return res.status(500).json({ message: "Login error after registration" });
@@ -104,6 +117,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (error instanceof z.ZodError) {
         return res.status(400).json({ message: "Validation error", errors: error.errors });
       }
+      console.error("Registration error:", error);
       res.status(500).json({ message: "Could not register user" });
     }
   });
