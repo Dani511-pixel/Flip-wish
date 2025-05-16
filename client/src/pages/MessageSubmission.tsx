@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -6,9 +6,10 @@ import { submitMessageSchema } from "@shared/schema";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { MicOff } from "lucide-react";
+import { MicOff, Smile } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
+import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 import {
   Form,
   FormControl,
@@ -32,6 +33,8 @@ type FormData = {
 const MessageSubmission = ({ slug }: MessageSubmissionProps) => {
   const { toast } = useToast();
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const emojiPickerRef = useRef<HTMLDivElement>(null);
 
   const { data: collectionData, isLoading: isLoadingCollection } = useQuery({
     queryKey: [`/api/collections/${slug}`],
@@ -77,6 +80,26 @@ const MessageSubmission = ({ slug }: MessageSubmissionProps) => {
   const onSubmit = (data: FormData) => {
     submitMessage.mutate(data);
   };
+  
+  const handleEmojiClick = (emojiData: EmojiClickData) => {
+    const currentContent = form.getValues("content");
+    form.setValue("content", currentContent + emojiData.emoji);
+    setShowEmojiPicker(false);
+  };
+  
+  // Close emoji picker when clicked outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (emojiPickerRef.current && !emojiPickerRef.current.contains(event.target as Node)) {
+        setShowEmojiPicker(false);
+      }
+    };
+    
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   if (isLoadingCollection) {
     return (
@@ -150,13 +173,35 @@ const MessageSubmission = ({ slug }: MessageSubmissionProps) => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Your Message</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        placeholder="Write your wishes or message here..."
-                        className="min-h-[120px]"
-                        {...field}
-                      />
-                    </FormControl>
+                    <div className="relative">
+                      <FormControl>
+                        <Textarea
+                          placeholder="Write your wishes or message here..."
+                          className="min-h-[120px] pr-10"
+                          {...field}
+                        />
+                      </FormControl>
+                      <button
+                        type="button"
+                        className="absolute right-3 bottom-3 text-gray-500 hover:text-primary transition-colors"
+                        onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+                      >
+                        <Smile className="h-5 w-5" />
+                      </button>
+                      
+                      {showEmojiPicker && (
+                        <div 
+                          ref={emojiPickerRef}
+                          className="absolute z-10 right-0 bottom-12 shadow-xl rounded-lg"
+                        >
+                          <EmojiPicker
+                            onEmojiClick={handleEmojiClick}
+                            width={320}
+                            height={400}
+                          />
+                        </div>
+                      )}
+                    </div>
                     <FormMessage />
                   </FormItem>
                 )}
