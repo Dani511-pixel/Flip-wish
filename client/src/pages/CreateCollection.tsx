@@ -56,7 +56,7 @@ const CreateCollection = () => {
       title: "",
       description: "",
       deadline: date?.toISOString() || "",
-      type: "birthday",
+      type: "end-of-school",
       collectionType: "standard",
       messageGoal: undefined
     },
@@ -156,14 +156,14 @@ const CreateCollection = () => {
                             className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                             {...field}
                           >
+                            <option value="end-of-school">End of School Year</option>
+                            <option value="sporting-season">End of Sporting Season</option>
                             <option value="birthday">Birthday</option>
                             <option value="wedding">Wedding</option>
                             <option value="graduation">Graduation</option>
                             <option value="retirement">Retirement</option>
                             <option value="anniversary">Anniversary</option>
-                            <option value="end-of-school">End of School Year</option>
                             <option value="christmas">Christmas</option>
-                            <option value="sporting-season">End of Sporting Season</option>
                             <option value="funeral">Funeral</option>
                             <option value="leaving">Leaving</option>
                             <option value="get-well">Get Well Soon</option>
