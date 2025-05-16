@@ -3,7 +3,6 @@ import { Message } from "@shared/schema";
 import { Card, CardContent } from "@/components/ui/card";
 import { ChevronLeft, ChevronRight, Play, Download, X } from "lucide-react";
 import MessageCard from "./MessageCard";
-import { motion, AnimatePresence } from "framer-motion";
 
 interface FlipbookPreviewProps {
   isOpen: boolean;
@@ -16,25 +15,17 @@ interface FlipbookPreviewProps {
 const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" }: FlipbookPreviewProps) => {
   const [currentIndex, setCurrentIndex] = useState(-1); // Start at -1 for cover page
   const [isPlaying, setIsPlaying] = useState(false);
-  const [direction, setDirection] = useState(0);
-  const [editingTitle, setEditingTitle] = useState(false);
   const [customTitle, setCustomTitle] = useState(title);
-  const [titleFont, setTitleFont] = useState("cursive");
-  const [titleSize, setTitleSize] = useState("4xl");
-  const [editingDate, setEditingDate] = useState(false);
   const [customDate, setCustomDate] = useState(new Date().toLocaleDateString());
 
   const totalMessages = messages.length;
   const currentMessage = totalMessages > 0 && currentIndex >= 0 ? messages[currentIndex] : null;
 
   const goToPrevious = () => {
-    setDirection(-1);
     setCurrentIndex((prev) => (prev === -1 ? totalMessages - 1 : prev - 1));
   };
 
   const goToNext = () => {
-    setDirection(1);
-    
     // Always move sequentially through messages
     if (currentIndex === -1) {
       // From cover page, always go to first message
@@ -47,22 +38,6 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
       setCurrentIndex(-1);
     }
   };
-  
-  // Font options
-  const fontOptions = [
-    { value: "serif", label: "Serif" },
-    { value: "sans", label: "Sans" },
-    { value: "mono", label: "Monospace" },
-    { value: "cursive", label: "Cursive" }
-  ];
-  
-  // Font size options
-  const fontSizes = [
-    { value: "lg", label: "Small" },
-    { value: "xl", label: "Medium" },
-    { value: "2xl", label: "Large" },
-    { value: "4xl", label: "Extra Large" }
-  ];
 
   const toggleAutoPlay = () => {
     setIsPlaying(!isPlaying);
@@ -77,15 +52,12 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
         // Sequentially move through messages and then back to cover
         if (currentIndex === -1) {
           // Start at first message
-          setDirection(1);
           setCurrentIndex(0);
         } else if (currentIndex < totalMessages - 1) {
           // Go to next message
-          setDirection(1);
           setCurrentIndex(currentIndex + 1);
         } else {
           // Go back to cover
-          setDirection(-1);
           setCurrentIndex(-1);
         }
       }, 3000);
@@ -95,31 +67,6 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
       if (interval) clearInterval(interval);
     };
   }, [isPlaying, currentIndex, totalMessages]);
-
-  const variants = {
-    enter: (direction: number) => {
-      return {
-        x: 1000, // Always enter from right
-        opacity: 0,
-        rotateY: 25,
-        scale: 0.9
-      };
-    },
-    center: {
-      x: 0,
-      opacity: 1,
-      rotateY: 0,
-      scale: 1
-    },
-    exit: (direction: number) => {
-      return {
-        x: -1000, // Always exit to left
-        opacity: 0,
-        rotateY: -25,
-        scale: 0.9
-      };
-    }
-  };
 
   if (!isOpen) return null;
 
@@ -143,147 +90,52 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
           <div className="flex items-center justify-center w-full">
             <button 
               type="button"
-              className="mx-2 sm:mx-4 text-gray-500 hover:text-primary bg-transparent p-2 rounded hover:bg-gray-100 transition-colors duration-200"
+              className="mx-2 sm:mx-4 text-gray-500 hover:text-primary bg-white p-2 rounded hover:bg-gray-100 transition-colors duration-200 z-10"
               onClick={goToPrevious}
               disabled={currentIndex === -1 || totalMessages <= 1}
-              style={{opacity: (currentIndex === -1 || totalMessages <= 1) ? 0.5 : 1}}
             >
               <ChevronLeft className="h-6 w-6" />
             </button>
             
-            <div className="flip-card w-64 sm:w-80 md:w-96 h-auto aspect-[4/5] perspective-1000">
-              <AnimatePresence initial={false} custom={direction}>
-                {currentIndex === -1 ? (
-                  // Cover Page
-                  <motion.div
-                    key="cover"
-                    custom={direction}
-                    variants={variants}
-                    initial="enter"
-                    animate="center"
-                    exit="exit"
-                    transition={{
-                      x: { type: "spring", stiffness: 300, damping: 30 },
-                      opacity: { duration: 0.2 }
-                    }}
-                    className="w-full h-full absolute"
-                  >
-                    <Card className="h-full overflow-hidden border border-gray-100 shadow-lg">
-                      <CardContent className="p-4 h-full flex flex-col justify-between bg-white">
-                        <div className="flex-grow flex flex-col items-center justify-center p-4">
-                          {editingTitle ? (
-                            <div className="space-y-4 w-full">
-                              <input
-                                type="text"
-                                value={customTitle}
-                                onChange={(e) => setCustomTitle(e.target.value)}
-                                className="w-full p-2 border rounded text-center"
-                                autoFocus
-                              />
-                              <div className="flex justify-between gap-2">
-                                <select 
-                                  value={titleFont}
-                                  onChange={(e) => setTitleFont(e.target.value)}
-                                  className="flex-1 p-2 border rounded text-sm"
-                                >
-                                  {fontOptions.map(font => (
-                                    <option key={font.value} value={font.value}>{font.label}</option>
-                                  ))}
-                                </select>
-                                <select 
-                                  value={titleSize}
-                                  onChange={(e) => setTitleSize(e.target.value)}
-                                  className="flex-1 p-2 border rounded text-sm"
-                                >
-                                  {fontSizes.map(size => (
-                                    <option key={size.value} value={size.value}>{size.label}</option>
-                                  ))}
-                                </select>
-                              </div>
-                              <button 
-                                type="button"
-                                onClick={() => setEditingTitle(false)}
-                                className="w-full bg-primary text-white p-2 rounded text-sm"
-                              >
-                                Save Title
-                              </button>
-                            </div>
-                          ) : (
-                            <h1 
-                              className={`text-${titleSize} font-${titleFont === 'mono' ? 'mono' : titleFont === 'sans' ? 'sans' : titleFont === 'cursive' ? 'cursive' : 'serif'} font-bold text-center mb-4 cursor-pointer`}
-                              onClick={() => setEditingTitle(true)}
-                            >
-                              {customTitle}
-                            </h1>
-                          )}
-                          
-                          {/* Decorative element with right arrow - fully centered */}
-                          <div className="my-6 flex flex-col items-center w-full">
-                            <div className="h-px w-40 bg-gray-200 relative mb-6">
-                              <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full border-2 border-primary"></div>
-                            </div>
-                            <p className="text-sm text-gray-500 mb-3 text-center">Click to start</p>
-                            <div 
-                              className="text-center cursor-pointer mx-auto" 
-                              onClick={goToNext}
-                            >
-                              <div className="animate-bounce mt-2 bg-primary text-white p-3 rounded-full mx-auto">
-                                <ChevronRight className="h-6 w-6" />
-                              </div>
-                            </div>
+            <div className="w-64 sm:w-80 md:w-96 relative">
+              {currentIndex === -1 ? (
+                // Cover Page
+                <Card className="overflow-hidden border border-gray-100 shadow-lg">
+                  <CardContent className="p-4 h-full flex flex-col justify-between bg-white">
+                    <div className="flex-grow flex flex-col items-center justify-center p-4">
+                      <h1 className="text-4xl font-cursive font-bold text-center mb-4">
+                        {customTitle}
+                      </h1>
+                      
+                      {/* Decorative element with right arrow - fully centered */}
+                      <div className="my-6 flex flex-col items-center w-full">
+                        <div className="h-px w-40 bg-gray-200 relative mb-6">
+                          <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full border-2 border-primary"></div>
+                        </div>
+                        <p className="text-sm text-gray-500 mb-3 text-center">Click to start</p>
+                        <div 
+                          className="text-center cursor-pointer mx-auto" 
+                          onClick={goToNext}
+                        >
+                          <div className="animate-bounce mt-2 bg-primary text-white p-3 rounded-full mx-auto">
+                            <ChevronRight className="h-6 w-6" />
                           </div>
                         </div>
-                        
-                        {/* Date section */}
-                        <div className="border-t border-gray-200 pt-4 text-center">
-                          {editingDate ? (
-                            <div className="space-y-2">
-                              <input
-                                type="text"
-                                value={customDate}
-                                onChange={(e) => setCustomDate(e.target.value)}
-                                className="w-full p-2 border rounded text-center text-sm"
-                                autoFocus
-                              />
-                              <button 
-                                type="button"
-                                onClick={() => setEditingDate(false)}
-                                className="w-full bg-primary text-white p-2 rounded text-sm"
-                              >
-                                Save Date
-                              </button>
-                            </div>
-                          ) : (
-                            <p 
-                              className="text-sm text-gray-600 cursor-pointer"
-                              onClick={() => setEditingDate(true)}
-                            >
-                              Created on {customDate}
-                            </p>
-                          )}
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                ) : currentMessage && (
-                  // Message Cards
-                  <motion.div
-                    key={currentIndex}
-                    custom={direction}
-                    variants={variants}
-                    initial="enter"
-                    animate="center"
-                    exit="exit"
-                    transition={{
-                      x: { type: "spring", stiffness: 300, damping: 30 },
-                      opacity: { duration: 0.2 }
-                    }}
-                    className="w-full h-full absolute"
-                  >
-                    <MessageCard message={currentMessage} isFlipbook={true} />
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                      </div>
+                    </div>
+                    
+                    {/* Date section */}
+                    <div className="border-t border-gray-200 pt-4 text-center">
+                      <p className="text-sm text-gray-600">
+                        Created on {customDate}
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
+              ) : currentMessage && (
+                // Message Cards
+                <MessageCard message={currentMessage} isFlipbook={true} />
+              )}
             </div>
             
             <button 
@@ -310,7 +162,6 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
               type="button"
               onClick={toggleAutoPlay}
               className="inline-flex items-center gap-2 px-3 py-2 text-sm rounded border border-gray-300 bg-white hover:bg-gray-100"
-              style={{opacity: totalMessages <= 1 ? 0.5 : 1}}
             >
               <Play className="h-4 w-4" />
               <span>{isPlaying ? "Pause" : "Auto Play"}</span>
