@@ -20,16 +20,27 @@ const MessageCard = ({ message, className = "", isFlipbook = false }: MessageCar
           </p>
         </div>
         <div className={`flex justify-between items-center ${isFlipbook ? 'border-t border-gray-200 pt-4' : ''}`}>
-          <div className={`font-medium ${isFlipbook ? 'text-primary' : 'text-gray-700'}`}>
-            {message.fromName}
-          </div>
+          {!isFlipbook && (
+            <div className="font-medium text-gray-700">
+              {message.fromName}
+            </div>
+          )}
+          {isFlipbook && (
+            <div className="text-xs text-gray-500">{formatTimeAgo(message.createdAt)}</div>
+          )}
           <div className="flex items-center gap-2">
             {message.hasVoice && (
               <Button size="sm" variant="ghost" className="h-6 w-6 p-0" title="Play voice message">
                 <MoveUp size={16} />
               </Button>
             )}
-            <div className="text-xs text-gray-500">{formatTimeAgo(message.createdAt)}</div>
+            {isFlipbook ? (
+              <div className="font-bold text-sm text-primary">
+                - {message.fromName}
+              </div>
+            ) : (
+              <div className="text-xs text-gray-500">{formatTimeAgo(message.createdAt)}</div>
+            )}
           </div>
         </div>
       </CardContent>
