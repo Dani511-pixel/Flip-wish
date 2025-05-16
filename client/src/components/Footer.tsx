@@ -12,15 +12,15 @@ const Footer = () => {
               Collect beautiful messages and turn them into memorable flipbooks for any occasion.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-primary">
+              <span className="text-gray-400 hover:text-primary cursor-pointer">
                 <Facebook size={18} />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-primary">
+              </span>
+              <span className="text-gray-400 hover:text-primary cursor-pointer">
                 <Twitter size={18} />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-primary">
+              </span>
+              <span className="text-gray-400 hover:text-primary cursor-pointer">
                 <Instagram size={18} />
-              </a>
+              </span>
             </div>
           </div>
 
@@ -31,30 +31,30 @@ const Footer = () => {
             <ul className="space-y-2">
               <li>
                 <Link href="/dashboard">
-                  <a className="text-gray-500 hover:text-primary">
+                  <span className="text-gray-500 hover:text-primary cursor-pointer">
                     Message Collection
-                  </a>
+                  </span>
                 </Link>
               </li>
               <li>
                 <Link href="/dashboard">
-                  <a className="text-gray-500 hover:text-primary">
+                  <span className="text-gray-500 hover:text-primary cursor-pointer">
                     Flipbook Creation
-                  </a>
+                  </span>
                 </Link>
               </li>
               <li>
                 <Link href="/dashboard">
-                  <a className="text-gray-500 hover:text-primary">
+                  <span className="text-gray-500 hover:text-primary cursor-pointer">
                     QR Code Generator
-                  </a>
+                  </span>
                 </Link>
               </li>
               <li>
                 <Link href="/dashboard">
-                  <a className="text-gray-500 hover:text-primary">
+                  <span className="text-gray-500 hover:text-primary cursor-pointer">
                     Premium Themes
-                  </a>
+                  </span>
                 </Link>
               </li>
             </ul>
@@ -67,30 +67,30 @@ const Footer = () => {
             <ul className="space-y-2">
               <li>
                 <Link href="/">
-                  <a className="text-gray-500 hover:text-primary">
+                  <span className="text-gray-500 hover:text-primary cursor-pointer">
                     Help Center
-                  </a>
+                  </span>
                 </Link>
               </li>
               <li>
                 <Link href="/">
-                  <a className="text-gray-500 hover:text-primary">
+                  <span className="text-gray-500 hover:text-primary cursor-pointer">
                     Pricing
-                  </a>
+                  </span>
                 </Link>
               </li>
               <li>
                 <Link href="/">
-                  <a className="text-gray-500 hover:text-primary">
+                  <span className="text-gray-500 hover:text-primary cursor-pointer">
                     API Documentation
-                  </a>
+                  </span>
                 </Link>
               </li>
               <li>
                 <Link href="/">
-                  <a className="text-gray-500 hover:text-primary">
+                  <span className="text-gray-500 hover:text-primary cursor-pointer">
                     Blog
-                  </a>
+                  </span>
                 </Link>
               </li>
             </ul>
@@ -103,30 +103,30 @@ const Footer = () => {
             <ul className="space-y-2">
               <li>
                 <Link href="/">
-                  <a className="text-gray-500 hover:text-primary">
+                  <span className="text-gray-500 hover:text-primary cursor-pointer">
                     About Us
-                  </a>
+                  </span>
                 </Link>
               </li>
               <li>
                 <Link href="/">
-                  <a className="text-gray-500 hover:text-primary">
+                  <span className="text-gray-500 hover:text-primary cursor-pointer">
                     Careers
-                  </a>
+                  </span>
                 </Link>
               </li>
               <li>
                 <Link href="/">
-                  <a className="text-gray-500 hover:text-primary">
+                  <span className="text-gray-500 hover:text-primary cursor-pointer">
                     Privacy Policy
-                  </a>
+                  </span>
                 </Link>
               </li>
               <li>
                 <Link href="/">
-                  <a className="text-gray-500 hover:text-primary">
+                  <span className="text-gray-500 hover:text-primary cursor-pointer">
                     Terms of Service
-                  </a>
+                  </span>
                 </Link>
               </li>
             </ul>

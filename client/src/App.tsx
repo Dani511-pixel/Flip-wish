@@ -3,6 +3,9 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
+import CreateCollection from "@/pages/CreateCollection";
+import NavBar from "@/components/NavBar";
+import Footer from "@/components/Footer";
 
 function Router() {
   return (
@@ -11,6 +14,7 @@ function Router() {
       <Route path="/dashboard" component={Home} />
       <Route path="/login" component={Home} />
       <Route path="/register" component={Home} />
+      <Route path="/create-collection" component={CreateCollection} />
       <Route component={NotFound} />
     </Switch>
   );
@@ -21,9 +25,11 @@ function App() {
     <TooltipProvider>
       <Toaster />
       <div className="flex flex-col min-h-screen">
+        <NavBar />
         <main className="flex-grow">
           <Router />
         </main>
+        <Footer />
       </div>
     </TooltipProvider>
   );
