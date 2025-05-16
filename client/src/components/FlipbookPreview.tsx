@@ -139,7 +139,8 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="w-full max-w-[90vw] sm:max-w-2xl md:max-w-3xl lg:max-w-4xl p-0 overflow-hidden" aria-describedby="flipbook-description">
+      <DialogContent className="w-full max-w-[90vw] sm:max-w-2xl md:max-w-3xl lg:max-w-4xl p-0 overflow-hidden">
+        <p id="flipbook-description" className="sr-only">Interactive flipbook displaying messages from your collection</p>
         <DialogHeader className="bg-white text-gray-800 px-6 py-4 border-b">
           <div className="flex justify-between items-center">
             <DialogTitle className="text-xl font-semibold">{title}</DialogTitle>
@@ -165,7 +166,7 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
               <ChevronLeft className="h-6 w-6" />
             </Button>
             
-            <div className="flip-card w-full sm:w-80 md:w-96 h-auto aspect-[3/4] perspective-1000">
+            <div className="flip-card w-72 sm:w-80 md:w-96 h-auto aspect-[4/5] perspective-1000">
               <AnimatePresence initial={false} custom={direction}>
                 {currentIndex === -1 ? (
                   // Cover Page

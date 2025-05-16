@@ -12,10 +12,10 @@ interface MessageCardProps {
 
 const MessageCard = ({ message, className = "", isFlipbook = false }: MessageCardProps) => {
   return (
-    <Card className={`overflow-hidden border border-gray-100 hover:shadow-md transition ${className} ${isFlipbook ? 'h-full' : ''}`}>
+    <Card className={`overflow-hidden border border-gray-100 hover:shadow-md transition ${className} ${isFlipbook ? 'h-full flex flex-col justify-between' : ''}`}>
       <CardContent className={`p-4 ${isFlipbook ? 'h-full flex flex-col' : ''}`}>
-        <div className={`${isFlipbook ? 'flex-grow flex items-center justify-center p-4' : ''}`}>
-          <p className={`${isFlipbook ? 'text-center text-lg' : ''} text-gray-800 mb-4`}>
+        <div className={`${isFlipbook ? 'flex-grow flex items-center justify-center p-2 sm:p-4' : ''}`}>
+          <p className={`${isFlipbook ? 'text-center text-base sm:text-lg md:text-xl leading-relaxed' : ''} text-gray-800 mb-2 sm:mb-4`}>
             "{message.content}"
           </p>
         </div>
