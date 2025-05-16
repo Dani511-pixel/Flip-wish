@@ -22,7 +22,7 @@ const Home = () => {
                 Share a link or QR code to collect heartfelt messages from friends and family, then transform them into an animated flipbook.
               </p>
               <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-                <Link href="/register">
+                <Link href="/create-collection">
                   <Button size="lg" className="text-base px-8">
                     Get Started for Free
                   </Button>
@@ -236,7 +236,7 @@ const Home = () => {
             <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
               Create your first collection in minutes and start gathering heartfelt messages today.
             </p>
-            <Link href="/register">
+            <Link href="/create-collection">
               <Button size="lg" className="text-base px-8">
                 Get Started for Free
               </Button>
