@@ -198,6 +198,8 @@ const MessageSubmission = ({ slug }: MessageSubmissionProps) => {
                             onEmojiClick={handleEmojiClick}
                             width={320}
                             height={400}
+                            searchPlaceHolder="Search emojis..."
+                            previewConfig={{ showPreview: false }}
                           />
                         </div>
                       )}
