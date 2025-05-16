@@ -310,32 +310,39 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
           </div>
         </div>
         
-        <div className="bg-white px-6 py-4 flex justify-between items-center">
-          <div className="text-sm text-gray-500">
-            {currentIndex === -1 ? (
-              <span>Cover Page</span>
-            ) : (
-              <>Card <span className="font-medium">{currentIndex + 1}</span> of <span className="font-medium">{totalMessages}</span></>
-            )}
+        <footer className="bg-white px-6 py-4 w-full border-t border-gray-200">
+          <div className="flex justify-between items-center w-full">
+            <div className="text-sm text-gray-500">
+              {currentIndex === -1 ? (
+                <span>Cover Page</span>
+              ) : (
+                <>Card <span className="font-medium">{currentIndex + 1}</span> of <span className="font-medium">{totalMessages}</span></>
+              )}
+            </div>
+            <div className="flex gap-3">
+              <a
+                href="#"
+                className="inline-flex items-center justify-center gap-2 h-9 px-3 py-2 text-sm rounded border border-gray-300 bg-white hover:bg-gray-100"
+                onClick={(e) => {
+                  e.preventDefault();
+                  toggleAutoPlay();
+                }}
+                style={{opacity: totalMessages <= 1 ? 0.5 : 1}}
+              >
+                <Play className="h-4 w-4" />
+                <span>{isPlaying ? "Pause" : "Auto Play"}</span>
+              </a>
+              <a
+                href="#"
+                className="inline-flex items-center justify-center gap-2 h-9 px-3 py-2 text-sm rounded bg-primary text-white hover:bg-primary/90"
+                onClick={(e) => e.preventDefault()}
+              >
+                <Download className="h-4 w-4" />
+                <span>Download</span>
+              </a>
+            </div>
           </div>
-          <div className="flex space-x-3">
-            <button 
-              className="inline-flex items-center justify-center gap-2 h-9 px-3 py-2 text-sm rounded border border-gray-300 bg-white hover:bg-gray-100 transition-colors duration-200"
-              onClick={toggleAutoPlay}
-              disabled={totalMessages <= 1}
-              style={{opacity: totalMessages <= 1 ? 0.5 : 1}}
-            >
-              <Play className="h-4 w-4" />
-              {isPlaying ? "Pause" : "Auto Play"}
-            </button>
-            <button 
-              className="inline-flex items-center justify-center gap-2 h-9 px-3 py-2 text-sm rounded bg-primary text-white hover:bg-primary/90 transition-colors duration-200"
-            >
-              <Download className="h-4 w-4" />
-              Download
-            </button>
-          </div>
-        </div>
+        </footer>
       </DialogContent>
     </Dialog>
   );
