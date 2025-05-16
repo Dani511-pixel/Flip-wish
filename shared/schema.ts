@@ -7,7 +7,9 @@ export const users = pgTable("users", {
   username: text("username").notNull().unique(),
   password: text("password").notNull(),
   name: text("name").notNull(),
-  email: text("email").notNull(),
+  email: text("email").notNull().unique(),
+  marketingOptIn: boolean("marketing_opt_in").default(false),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
 export const messageCollections = pgTable("message_collections", {
@@ -47,6 +49,7 @@ export const insertUserSchema = createInsertSchema(users).pick({
   password: true,
   name: true,
   email: true,
+  marketingOptIn: true,
 });
 
 export const insertMessageCollectionSchema = createInsertSchema(messageCollections).pick({
