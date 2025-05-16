@@ -17,7 +17,9 @@ function Router() {
       <Route path="/login" component={Home} />
       <Route path="/register" component={Home} />
       <Route path="/create-collection" component={CreateCollection} />
-      <Route path="/submit/:slug" component={(params) => <MessageSubmission slug={params.slug} />} />
+      <Route path="/submit/:slug">
+        {params => <MessageSubmission slug={params.slug} />}
+      </Route>
       <Route path="/:rest*" component={NotFound} />
     </Switch>
   );
