@@ -7,6 +7,7 @@ import CreateCollection from "@/pages/CreateCollection";
 import Dashboard from "@/pages/Dashboard";
 import MessageSubmission from "@/pages/MessageSubmission";
 import ViewFlipbook from "@/pages/ViewFlipbook";
+import Register from "@/pages/Register";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 
@@ -16,7 +17,7 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/login" component={Home} />
-      <Route path="/register" component={Home} />
+      <Route path="/register" component={Register} />
       <Route path="/create-collection" component={CreateCollection} />
       <Route path="/submit/:slug">
         {params => <MessageSubmission slug={params.slug} />}
