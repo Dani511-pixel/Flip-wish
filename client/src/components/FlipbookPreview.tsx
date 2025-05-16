@@ -156,16 +156,14 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
 
         <div className="p-6 bg-gray-50 flex justify-center items-center">
           <div className="flex items-center">
-            {currentIndex !== -1 && (
-              <Button 
-                variant="ghost" 
-                className="mr-4 text-gray-500 hover:text-primary"
-                onClick={goToPrevious}
-                disabled={totalMessages <= 1}
-              >
-                <ChevronLeft className="h-6 w-6" />
-              </Button>
-            )}
+            <Button 
+              variant="ghost" 
+              className="mr-4 text-gray-500 hover:text-primary"
+              onClick={goToPrevious}
+              disabled={currentIndex === -1 || totalMessages <= 1}
+            >
+              <ChevronLeft className="h-6 w-6" />
+            </Button>
             
             <div className="flip-card w-80 h-96 perspective-1000">
               <AnimatePresence initial={false} custom={direction}>
