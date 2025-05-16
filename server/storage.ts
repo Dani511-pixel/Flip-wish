@@ -52,6 +52,82 @@ export class MemStorage implements IStorage {
     this.collectionCurrentId = 1;
     this.messageCurrentId = 1;
     this.flipbookCurrentId = 1;
+    
+    // Add a demo user
+    this.users.set(1, {
+      id: 1,
+      username: "demo",
+      password: "password",
+      email: "demo@example.com",
+      name: "Demo User",
+      createdAt: new Date()
+    });
+    
+    // Add some demo collections for development
+    this.collections.set(1, {
+      id: 1,
+      title: "End of School Year Memories",
+      type: "end-of-school",
+      slug: "end-of-school-2023",
+      status: "active",
+      userId: 1,
+      deadline: new Date(Date.now() + 12 * 24 * 60 * 60 * 1000), // 12 days from now
+      goal: 50,
+      createdAt: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000), // 15 days ago
+    });
+    
+    this.collections.set(2, {
+      id: 2,
+      title: "Championship Basketball Team",
+      type: "sporting-season",
+      slug: "basketball-champs-2023",
+      status: "active",
+      userId: 1,
+      deadline: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000), // 5 days from now
+      goal: 30,
+      createdAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000), // 10 days ago
+    });
+    
+    // Add some demo messages
+    this.messages.set(1, {
+      id: 1,
+      content: "You've been the most inspiring teacher I've ever had. Thank you for making our final year so special!",
+      fromName: "Emma Johnson",
+      collectionId: 1,
+      hasVoice: false,
+      voiceUrl: null,
+      createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), // 2 days ago
+    });
+    
+    this.messages.set(2, {
+      id: 2,
+      content: "Mrs. Smith, you've made math fun and engaging all year. I never thought I'd enjoy algebra, but you changed that!",
+      fromName: "Alex Thompson",
+      collectionId: 1,
+      hasVoice: false,
+      voiceUrl: null,
+      createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000), // 3 days ago
+    });
+    
+    this.messages.set(3, {
+      id: 3,
+      content: "Thanks for all the extra help during study hall. It really made a difference in my grades and confidence.",
+      fromName: "Michael Rodriguez",
+      collectionId: 1,
+      hasVoice: false,
+      voiceUrl: null,
+      createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000), // 5 days ago
+    });
+    
+    this.messages.set(4, {
+      id: 4,
+      content: "Coach, your dedication to our team is what got us through the season. Thanks for pushing us to be our best!",
+      fromName: "Jason Miller",
+      collectionId: 2,
+      hasVoice: false,
+      voiceUrl: null,
+      createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000), // 1 day ago
+    });
   }
 
   // User operations
