@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
-import { WelcomeAnimation } from "@/components/WelcomeAnimation";
 import { 
   Card, 
   CardContent, 
@@ -99,19 +98,6 @@ const mockMessages = [
 const Dashboard = () => {
   const { toast } = useToast();
   const [activeCollection, setActiveCollection] = useState(1); // Default to first collection
-  const [showWelcome, setShowWelcome] = useState(false);
-  const [username, setUsername] = useState("Sarah");
-  
-  // Check if this is the first visit
-  useEffect(() => {
-    const hasVisitedBefore = localStorage.getItem('hasVisitedBefore');
-    if (!hasVisitedBefore) {
-      // Show welcome animation on first visit
-      setShowWelcome(true);
-      // Set flag to avoid showing again
-      localStorage.setItem('hasVisitedBefore', 'true');
-    }
-  }, []);
   
   // Filter messages for the active collection
   const activeCollectionMessages = mockMessages.filter(
@@ -143,24 +129,9 @@ const Dashboard = () => {
   
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      {showWelcome && (
-        <WelcomeAnimation
-          username={username}
-          onDismiss={() => setShowWelcome(false)}
-        />
-      )}
-      <div className="mb-8 flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Your Dashboard</h1>
-          <p className="text-gray-500">Manage your message collections and create flipbooks</p>
-        </div>
-        <Button 
-          variant="outline" 
-          size="sm"
-          onClick={() => setShowWelcome(true)}
-        >
-          Show Welcome
-        </Button>
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-gray-900">Your Dashboard</h1>
+        <p className="text-gray-500">Manage your message collections and create flipbooks</p>
       </div>
       
       {/* Active Collection Stats */}
