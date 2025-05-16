@@ -159,14 +159,14 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
           <div className="flex items-center justify-center w-full">
             <Button 
               variant="ghost" 
-              className="mx-4 text-gray-500 hover:text-primary"
+              className="mx-2 sm:mx-4 text-gray-500 hover:text-primary"
               onClick={goToPrevious}
               disabled={currentIndex === -1 || totalMessages <= 1}
             >
               <ChevronLeft className="h-6 w-6" />
             </Button>
             
-            <div className="flip-card w-72 sm:w-80 md:w-96 h-auto aspect-[4/5] perspective-1000">
+            <div className="flip-card w-64 sm:w-80 md:w-96 h-auto aspect-[4/5] perspective-1000">
               <AnimatePresence initial={false} custom={direction}>
                 {currentIndex === -1 ? (
                   // Cover Page
@@ -232,19 +232,19 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
                             </h1>
                           )}
                           
-                          {/* Decorative element with right arrow */}
-                          <div className="my-6 flex flex-col items-center">
+                          {/* Decorative element with right arrow - fully centered */}
+                          <div className="my-6 flex flex-col items-center w-full">
                             <div className="h-px w-40 bg-gray-200 relative mb-6">
                               <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full border-2 border-primary"></div>
                             </div>
                             <div 
-                              className="text-center cursor-pointer" 
+                              className="text-center cursor-pointer mx-auto" 
                               onClick={goToNext}
                             >
-                              <div className="animate-bounce mt-2 bg-primary text-white p-3 rounded-full">
+                              <div className="animate-bounce mt-2 bg-primary text-white p-3 rounded-full mx-auto">
                                 <ChevronRight className="h-6 w-6" />
                               </div>
-                              <p className="text-sm text-gray-500 mt-2">Click to start</p>
+                              <p className="text-sm text-gray-500 mt-2 text-center">Click to start</p>
                             </div>
                           </div>
                         </div>
@@ -303,7 +303,7 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
             
             <Button 
               variant="default" 
-              className="mx-4"
+              className="mx-2 sm:mx-4 z-10"
               onClick={goToNext}
             >
               <ChevronRight className="h-6 w-6" />
