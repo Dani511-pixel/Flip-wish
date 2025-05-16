@@ -310,7 +310,7 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
           </div>
         </div>
         
-        <footer className="bg-white px-6 py-4 w-full border-t border-gray-200">
+        <div className="bg-white px-6 py-4 w-full border-t border-gray-200">
           <div className="flex justify-between items-center w-full">
             <div className="text-sm text-gray-500">
               {currentIndex === -1 ? (
@@ -320,29 +320,23 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
               )}
             </div>
             <div className="flex gap-3">
-              <a
-                href="#"
-                className="inline-flex items-center justify-center gap-2 h-9 px-3 py-2 text-sm rounded border border-gray-300 bg-white hover:bg-gray-100"
-                onClick={(e) => {
-                  e.preventDefault();
-                  toggleAutoPlay();
-                }}
+              <div 
+                className="inline-flex items-center justify-center gap-2 h-9 px-3 py-2 text-sm font-medium rounded border border-gray-300 bg-white hover:bg-gray-100 cursor-pointer select-none"
+                onClick={toggleAutoPlay}
                 style={{opacity: totalMessages <= 1 ? 0.5 : 1}}
               >
-                <Play className="h-4 w-4" />
-                <span>{isPlaying ? "Pause" : "Auto Play"}</span>
-              </a>
-              <a
-                href="#"
-                className="inline-flex items-center justify-center gap-2 h-9 px-3 py-2 text-sm rounded bg-primary text-white hover:bg-primary/90"
-                onClick={(e) => e.preventDefault()}
+                <Play className="h-4 w-4 pointer-events-none" />
+                <span className="pointer-events-none">{isPlaying ? "Pause" : "Auto Play"}</span>
+              </div>
+              <div 
+                className="inline-flex items-center justify-center gap-2 h-9 px-3 py-2 text-sm font-medium rounded bg-primary text-white hover:bg-primary/90 cursor-pointer select-none"
               >
-                <Download className="h-4 w-4" />
-                <span>Download</span>
-              </a>
+                <Download className="h-4 w-4 pointer-events-none" />
+                <span className="pointer-events-none">Download</span>
+              </div>
             </div>
           </div>
-        </footer>
+        </div>
       </DialogContent>
     </Dialog>
   );
