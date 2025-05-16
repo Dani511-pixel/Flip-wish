@@ -115,7 +115,7 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-3xl p-0 overflow-hidden">
+      <DialogContent className="sm:max-w-4xl p-0 overflow-hidden" aria-describedby="flipbook-description">
         <DialogHeader className={`text-white px-6 py-4 ${getGradient()}`}>
           <div className="flex justify-between items-center">
             <DialogTitle className="text-xl font-semibold">{title}</DialogTitle>
@@ -132,14 +132,16 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
 
         <div className="p-6 bg-gray-50 flex justify-center items-center">
           <div className="flex items-center">
-            <Button 
-              variant="ghost" 
-              className="mr-4 text-gray-500 hover:text-primary"
-              onClick={goToPrevious}
-              disabled={totalMessages <= 1}
-            >
-              <ChevronLeft className="h-6 w-6" />
-            </Button>
+            {currentIndex !== -1 && (
+              <Button 
+                variant="ghost" 
+                className="mr-4 text-gray-500 hover:text-primary"
+                onClick={goToPrevious}
+                disabled={totalMessages <= 1}
+              >
+                <ChevronLeft className="h-6 w-6" />
+              </Button>
+            )}
             
             <div className="flip-card w-80 h-96 perspective-1000">
               <AnimatePresence initial={false} custom={direction}>
@@ -271,7 +273,7 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
               variant="ghost" 
               className="ml-4 text-gray-500 hover:text-primary"
               onClick={goToNext}
-              disabled={totalMessages <= 1}
+              disabled={totalMessages <= 1 && currentIndex !== -1}
             >
               <ChevronRight className="h-6 w-6" />
             </Button>
