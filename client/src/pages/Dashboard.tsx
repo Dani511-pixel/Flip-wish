@@ -155,10 +155,12 @@ const Dashboard = () => {
                   </div>
                   <div className="text-sm text-gray-600">Messages collected</div>
                 </div>
-                <Button onClick={() => navigate(`/flipbook/1`)}>
-                  <BookOpen className="mr-2 h-4 w-4" />
-                  View Flipbook
-                </Button>
+                <Link href="/flipbook/1">
+                  <Button>
+                    <BookOpen className="mr-2 h-4 w-4" />
+                    View Flipbook
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>
