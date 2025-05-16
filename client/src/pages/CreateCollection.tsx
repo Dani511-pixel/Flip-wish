@@ -36,7 +36,7 @@ const formSchema = z.object({
   deadline: z.string().min(1, {
     message: "Please select a deadline date",
   }),
-  type: z.enum(["birthday", "wedding", "graduation", "retirement", "anniversary", "other"]),
+  type: z.enum(["birthday", "wedding", "graduation", "retirement", "anniversary", "end-of-school", "christmas", "sporting-season", "funeral", "leaving", "get-well", "other"]),
   collectionType: z.enum(["standard", "premium"]),
   messageGoal: z.string().optional().transform(val => val ? parseInt(val) : undefined),
 });
@@ -58,7 +58,7 @@ const CreateCollection = () => {
       deadline: date?.toISOString() || "",
       type: "birthday",
       collectionType: "standard",
-      messageGoal: ""
+      messageGoal: undefined
     },
   });
 
@@ -161,6 +161,12 @@ const CreateCollection = () => {
                             <option value="graduation">Graduation</option>
                             <option value="retirement">Retirement</option>
                             <option value="anniversary">Anniversary</option>
+                            <option value="end-of-school">End of School Year</option>
+                            <option value="christmas">Christmas</option>
+                            <option value="sporting-season">End of Sporting Season</option>
+                            <option value="funeral">Funeral</option>
+                            <option value="leaving">Leaving</option>
+                            <option value="get-well">Get Well Soon</option>
                             <option value="other">Other</option>
                           </select>
                         </FormControl>
@@ -218,27 +224,7 @@ const CreateCollection = () => {
                   />
                 </div>
 
-                <FormField
-                  control={form.control}
-                  name="messageGoal"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Message Goal (Optional)</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          min="1"
-                          placeholder="e.g. 50"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormDescription>
-                        Set a target number of messages to collect
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+
 
                 <Tabs defaultValue="standard" className="w-full">
                   <div className="flex items-center justify-between mb-4">
