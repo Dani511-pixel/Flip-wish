@@ -1,10 +1,11 @@
-import { Switch, Route } from "wouter";
+import { Switch, Route, useLocation } from "wouter";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
 import CreateCollection from "@/pages/CreateCollection";
 import Dashboard from "@/pages/Dashboard";
+import MessageSubmission from "@/pages/MessageSubmission";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 
@@ -16,6 +17,7 @@ function Router() {
       <Route path="/login" component={Home} />
       <Route path="/register" component={Home} />
       <Route path="/create-collection" component={CreateCollection} />
+      <Route path="/submit/:slug" component={(params) => <MessageSubmission slug={params.slug} />} />
       <Route path="/:rest*" component={NotFound} />
     </Switch>
   );
