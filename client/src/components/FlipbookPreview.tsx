@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Message } from "@shared/schema";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ChevronLeft, ChevronRight, Play, Download, X, Book } from "lucide-react";
@@ -137,26 +137,21 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
     }
   };
 
-  // Add a separate state for button visibility
-  const [buttonsVisible, setButtonsVisible] = useState(true);
-
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="w-full max-w-[90vw] sm:max-w-2xl md:max-w-3xl lg:max-w-4xl p-0 overflow-hidden">
-        <p id="flipbook-description" className="sr-only">Interactive flipbook displaying messages from your collection</p>
-        <DialogHeader className="bg-white text-gray-800 px-6 py-4 border-b">
-          <div className="flex justify-between items-center">
-            <DialogTitle className="text-xl font-semibold">{title}</DialogTitle>
-            <button 
-              className="text-gray-500 hover:bg-gray-100 p-2 rounded"
-              onClick={onClose}
-            >
-              <X className="h-4 w-4" />
-            </button>
-          </div>
-        </DialogHeader>
+        <div className="bg-white text-gray-800 px-6 py-4 border-b flex justify-between items-center">
+          <h2 className="text-xl font-semibold">{title}</h2>
+          <button 
+            className="text-gray-500 hover:bg-gray-100 p-2 rounded"
+            onClick={onClose}
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
 
-        <div className="p-6 bg-gray-50 flex flex-col justify-center items-center">
+        {/* Content area */}
+        <div className="p-6 bg-gray-50 flex flex-col justify-center items-center flex-grow">
           <div className="flex items-center justify-center w-full">
             <button 
               className="mx-2 sm:mx-4 text-gray-500 hover:text-primary bg-transparent p-2 rounded hover:bg-gray-100 transition-colors duration-200"
@@ -216,13 +211,12 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
                                   ))}
                                 </select>
                               </div>
-                              <Button 
+                              <button 
                                 onClick={() => setEditingTitle(false)}
-                                className="w-full" 
-                                size="sm"
+                                className="w-full bg-primary text-white p-2 rounded text-sm"
                               >
                                 Save Title
-                              </Button>
+                              </button>
                             </div>
                           ) : (
                             <h1 
@@ -261,13 +255,12 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
                                 className="w-full p-2 border rounded text-center text-sm"
                                 autoFocus
                               />
-                              <Button 
+                              <button 
                                 onClick={() => setEditingDate(false)}
-                                className="w-full" 
-                                size="sm"
+                                className="w-full bg-primary text-white p-2 rounded text-sm"
                               >
                                 Save Date
-                              </Button>
+                              </button>
                             </div>
                           ) : (
                             <p 
@@ -311,60 +304,30 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
           </div>
         </div>
         
-        {/* Fixed footer that's always visible */}
-        <table className="w-full bg-white border-t border-gray-200" style={{tableLayout: "fixed"}}>
-          <tbody>
-            <tr>
-              <td className="px-6 py-4 text-sm text-gray-500 w-1/2">
-                {currentIndex === -1 ? (
-                  <span>Cover Page</span>
-                ) : (
-                  <>Card <span className="font-medium">{currentIndex + 1}</span> of <span className="font-medium">{totalMessages}</span></>
-                )}
-              </td>
-              <td className="px-6 py-4 text-right w-1/2">
-                <span 
-                  onClick={toggleAutoPlay}
-                  style={{
-                    display: "inline-block",
-                    padding: "0.5rem 0.75rem",
-                    marginRight: "0.75rem",
-                    fontSize: "0.875rem",
-                    fontWeight: 500,
-                    borderRadius: "0.25rem",
-                    border: "1px solid #e2e8f0",
-                    backgroundColor: "white",
-                    color: "black",
-                    cursor: "pointer",
-                    opacity: totalMessages <= 1 ? 0.5 : 1
-                  }}
-                >
-                  <span style={{display: "inline-flex", alignItems: "center"}}>
-                    <Play className="h-4 w-4 mr-2" />
-                    {isPlaying ? "Pause" : "Auto Play"}
-                  </span>
-                </span>
-                <span 
-                  style={{
-                    display: "inline-block",
-                    padding: "0.5rem 0.75rem",
-                    fontSize: "0.875rem",
-                    fontWeight: 500,
-                    borderRadius: "0.25rem",
-                    backgroundColor: "#0284c7",
-                    color: "white",
-                    cursor: "pointer"
-                  }}
-                >
-                  <span style={{display: "inline-flex", alignItems: "center"}}>
-                    <Download className="h-4 w-4 mr-2" />
-                    Download
-                  </span>
-                </span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        {/* Footer controls */}
+        <div className="bg-white px-6 py-4 border-t border-gray-200 flex justify-between items-center">
+          <div className="text-sm text-gray-500">
+            {currentIndex === -1 ? (
+              <span>Cover Page</span>
+            ) : (
+              <>Card <span className="font-medium">{currentIndex + 1}</span> of <span className="font-medium">{totalMessages}</span></>
+            )}
+          </div>
+          <div className="flex space-x-3">
+            <button 
+              onClick={toggleAutoPlay} 
+              className="inline-flex items-center gap-2 px-3 py-2 text-sm rounded border border-gray-300 bg-white hover:bg-gray-100"
+              style={{opacity: totalMessages <= 1 ? 0.5 : 1}}
+            >
+              <Play className="h-4 w-4" />
+              <span>{isPlaying ? "Pause" : "Auto Play"}</span>
+            </button>
+            <button className="inline-flex items-center gap-2 px-3 py-2 text-sm rounded bg-primary text-white hover:bg-primary/90">
+              <Download className="h-4 w-4" />
+              <span>Download</span>
+            </button>
+          </div>
+        </div>
       </DialogContent>
     </Dialog>
   );
