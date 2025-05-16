@@ -15,22 +15,44 @@ interface FlipbookPreviewProps {
 }
 
 const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" }: FlipbookPreviewProps) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(-1); // Start at -1 for cover page
   const [isPlaying, setIsPlaying] = useState(false);
   const [direction, setDirection] = useState(0);
+  const [editingTitle, setEditingTitle] = useState(false);
+  const [customTitle, setCustomTitle] = useState(title);
+  const [titleFont, setTitleFont] = useState("serif");
+  const [titleSize, setTitleSize] = useState("2xl");
+  const [editingDate, setEditingDate] = useState(false);
+  const [customDate, setCustomDate] = useState(new Date().toLocaleDateString());
 
   const totalMessages = messages.length;
   const currentMessage = totalMessages > 0 ? messages[currentIndex] : null;
 
   const goToPrevious = () => {
     setDirection(-1);
-    setCurrentIndex((prev) => (prev === 0 ? totalMessages - 1 : prev - 1));
+    setCurrentIndex((prev) => (prev === -1 ? totalMessages - 1 : prev - 1));
   };
 
   const goToNext = () => {
     setDirection(1);
-    setCurrentIndex((prev) => (prev === totalMessages - 1 ? 0 : prev + 1));
+    setCurrentIndex((prev) => (prev === totalMessages - 1 ? -1 : prev + 1));
   };
+  
+  // Font options
+  const fontOptions = [
+    { value: "serif", label: "Serif" },
+    { value: "sans", label: "Sans" },
+    { value: "mono", label: "Monospace" },
+    { value: "cursive", label: "Cursive" }
+  ];
+  
+  // Font size options
+  const fontSizes = [
+    { value: "lg", label: "Small" },
+    { value: "xl", label: "Medium" },
+    { value: "2xl", label: "Large" },
+    { value: "4xl", label: "Extra Large" }
+  ];
 
   const toggleAutoPlay = () => {
     setIsPlaying(!isPlaying);
@@ -117,7 +139,109 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
             
             <div className="flip-card w-80 h-96 perspective-1000">
               <AnimatePresence initial={false} custom={direction}>
-                {currentMessage && (
+                {currentIndex === -1 ? (
+                  // Cover Page
+                  <motion.div
+                    key="cover"
+                    custom={direction}
+                    variants={variants}
+                    initial="enter"
+                    animate="center"
+                    exit="exit"
+                    transition={{
+                      x: { type: "spring", stiffness: 300, damping: 30 },
+                      opacity: { duration: 0.2 }
+                    }}
+                    className="w-full h-full absolute"
+                  >
+                    <Card className="h-full overflow-hidden border border-gray-100 shadow-lg">
+                      <CardContent className={`p-4 h-full flex flex-col justify-between bg-gradient-to-b ${getGradient()} bg-opacity-10`}>
+                        <div className="flex-grow flex flex-col items-center justify-center p-4">
+                          {editingTitle ? (
+                            <div className="space-y-4 w-full">
+                              <input
+                                type="text"
+                                value={customTitle}
+                                onChange={(e) => setCustomTitle(e.target.value)}
+                                className="w-full p-2 border rounded text-center"
+                                autoFocus
+                              />
+                              <div className="flex justify-between gap-2">
+                                <select 
+                                  value={titleFont}
+                                  onChange={(e) => setTitleFont(e.target.value)}
+                                  className="flex-1 p-2 border rounded text-sm"
+                                >
+                                  {fontOptions.map(font => (
+                                    <option key={font.value} value={font.value}>{font.label}</option>
+                                  ))}
+                                </select>
+                                <select 
+                                  value={titleSize}
+                                  onChange={(e) => setTitleSize(e.target.value)}
+                                  className="flex-1 p-2 border rounded text-sm"
+                                >
+                                  {fontSizes.map(size => (
+                                    <option key={size.value} value={size.value}>{size.label}</option>
+                                  ))}
+                                </select>
+                              </div>
+                              <Button 
+                                onClick={() => setEditingTitle(false)}
+                                className="w-full" 
+                                size="sm"
+                              >
+                                Save Title
+                              </Button>
+                            </div>
+                          ) : (
+                            <h1 
+                              className={`text-${titleSize} font-${titleFont === 'mono' ? 'mono' : titleFont === 'sans' ? 'sans' : titleFont === 'cursive' ? 'cursive' : 'serif'} font-bold text-center mb-4 cursor-pointer`}
+                              onClick={() => setEditingTitle(true)}
+                            >
+                              {customTitle}
+                            </h1>
+                          )}
+                          
+                          {/* Book icon or cover image */}
+                          <div className="my-6">
+                            <Book className="h-20 w-20 mx-auto text-primary" strokeWidth={1} />
+                          </div>
+                        </div>
+                        
+                        {/* Date section */}
+                        <div className="border-t border-gray-200 pt-4 text-center">
+                          {editingDate ? (
+                            <div className="space-y-2">
+                              <input
+                                type="text"
+                                value={customDate}
+                                onChange={(e) => setCustomDate(e.target.value)}
+                                className="w-full p-2 border rounded text-center text-sm"
+                                autoFocus
+                              />
+                              <Button 
+                                onClick={() => setEditingDate(false)}
+                                className="w-full" 
+                                size="sm"
+                              >
+                                Save Date
+                              </Button>
+                            </div>
+                          ) : (
+                            <p 
+                              className="text-sm text-gray-600 cursor-pointer"
+                              onClick={() => setEditingDate(true)}
+                            >
+                              Created on {customDate}
+                            </p>
+                          )}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                ) : currentMessage && (
+                  // Message Cards
                   <motion.div
                     key={currentIndex}
                     custom={direction}
