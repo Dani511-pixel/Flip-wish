@@ -4,7 +4,8 @@ import { Link } from "wouter";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useAuth } from "@/contexts/AuthContext";
+import { useMutation } from "@tanstack/react-query";
+import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -26,7 +27,7 @@ type FormData = z.infer<typeof formSchema>;
 
 const Login = () => {
   const [, navigate] = useLocation();
-  const { login, isLoading } = useAuth();
+  const { toast } = useToast();
   const [error, setError] = useState<string | null>(null);
 
   const form = useForm<FormData>({
@@ -37,14 +38,38 @@ const Login = () => {
     },
   });
 
-  const onSubmit = async (data: FormData) => {
-    try {
-      setError(null);
-      await login(data.username, data.password);
+  const loginMutation = useMutation({
+    mutationFn: async (credentials: { username: string; password: string }) => {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(credentials),
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Login failed");
+      }
+      
+      return response.json();
+    },
+    onSuccess: (data) => {
+      toast({
+        title: "Login successful",
+        description: `Welcome back, ${data.user?.name || data.user?.username || 'user'}!`,
+      });
       navigate("/dashboard");
-    } catch (err: any) {
-      setError(err.message || "Login failed. Please try again.");
-    }
+    },
+    onError: (error: Error) => {
+      setError(error.message || "Login failed. Please try again.");
+    },
+  });
+
+  const onSubmit = async (data: FormData) => {
+    setError(null);
+    loginMutation.mutate(data);
   };
 
   return (
@@ -93,8 +118,8 @@ const Login = () => {
                 )}
               />
 
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? "Logging in..." : "Login"}
+              <Button type="submit" className="w-full" disabled={loginMutation.isPending}>
+                {loginMutation.isPending ? "Logging in..." : "Login"}
               </Button>
             </form>
           </Form>
@@ -102,8 +127,8 @@ const Login = () => {
         <CardFooter className="flex justify-center">
           <p className="text-sm text-gray-600">
             Don't have an account?{" "}
-            <Link href="/register">
-              <a className="text-primary font-medium hover:underline">Register</a>
+            <Link href="/register" className="text-primary font-medium hover:underline">
+              Sign up
             </Link>
           </p>
         </CardFooter>

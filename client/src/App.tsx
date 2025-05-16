@@ -8,6 +8,7 @@ import Dashboard from "@/pages/Dashboard";
 import MessageSubmission from "@/pages/MessageSubmission";
 import ViewFlipbook from "@/pages/ViewFlipbook";
 import Register from "@/pages/Register";
+import Login from "@/pages/Login";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -18,7 +19,7 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/dashboard" component={Dashboard} />
-      <Route path="/login" component={Home} />
+      <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
       <Route path="/create-collection" component={CreateCollection} />
       <Route path="/submit/:slug">
