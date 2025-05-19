@@ -4,6 +4,20 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, Play, Pause, Download, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
+// Define CSS for confetti animation
+const confettiStyles = `
+  @keyframes fall {
+    from {
+      transform: translateY(-10px) rotate(0deg);
+      opacity: 1;
+    }
+    to {
+      transform: translateY(100vh) rotate(360deg);
+      opacity: 0;
+    }
+  }
+`;
+
 const WelcomeFirstDemo = () => {
   // State for the flipbook
   const [isOpen, setIsOpen] = useState(false);
@@ -50,7 +64,7 @@ const WelcomeFirstDemo = () => {
   const totalPages = messages.length + 3;
   
   // Play audio when navigating
-  const audioRef = useRef(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
   const playPageFlipSound = () => {
     if (audioRef.current) {
       audioRef.current.currentTime = 0;
@@ -218,6 +232,9 @@ const WelcomeFirstDemo = () => {
   
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Add style element for confetti animation */}
+      <style dangerouslySetInnerHTML={{ __html: confettiStyles }} />
+      
       <h1 className="text-3xl font-bold mb-6">FlipWish Book Demo</h1>
       <p className="mb-4">This demo shows the FlipWish book with the welcome message appearing first, followed by the title page.</p>
       <p className="mb-6">The navigation buttons (Auto Play and Download) remain visible at all times for easy access.</p>
@@ -226,9 +243,9 @@ const WelcomeFirstDemo = () => {
         Open FlipWish Book
       </Button>
       
-      {/* Audio element for very short, deep, subtle page flip sound */}
+      {/* Audio element for deep, subtle page flip sound */}
       <audio ref={audioRef} preload="auto">
-        <source src="https://assets.mixkit.co/active_storage/sfx/209/209-preview.mp3" type="audio/mpeg" />
+        <source src="https://www.soundjay.com/page-flip-sound-effect.mp3" type="audio/mpeg" />
         Your browser does not support the audio element.
       </audio>
       
@@ -236,14 +253,29 @@ const WelcomeFirstDemo = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
           {/* Confetti effect */}
           {showConfetti && (
-            <div className="absolute inset-0 z-10 pointer-events-none">
-              <div className="absolute inset-0 overflow-hidden">
-                <div className="absolute top-0 left-1/4 w-2 h-2 bg-yellow-500 rounded-full animate-fall"></div>
-                <div className="absolute top-0 left-1/3 w-3 h-3 bg-red-500 rounded-full animate-fall-slow"></div>
-                <div className="absolute top-0 left-1/2 w-2 h-2 bg-blue-500 rounded-full animate-fall-slower"></div>
-                <div className="absolute top-0 left-2/3 w-3 h-3 bg-green-500 rounded-full animate-fall"></div>
-                <div className="absolute top-0 left-3/4 w-2 h-2 bg-pink-500 rounded-full animate-fall-slow"></div>
-              </div>
+            <div className="fixed inset-0 z-50 pointer-events-none flex">
+              {/* Falling confetti pieces */}
+              {[...Array(50)].map((_, i) => {
+                const size = Math.random() * 10 + 5;
+                const color = ['bg-red-500', 'bg-blue-500', 'bg-yellow-500', 'bg-green-500', 'bg-pink-500', 'bg-purple-500'][Math.floor(Math.random() * 6)];
+                const left = `${Math.random() * 100}%`;
+                const animationDuration = `${Math.random() * 3 + 2}s`;
+                const animationDelay = `${Math.random() * 2}s`;
+                
+                return (
+                  <div 
+                    key={i}
+                    className={`absolute top-0 ${color} rounded-full`}
+                    style={{
+                      left,
+                      width: `${size}px`,
+                      height: `${size}px`,
+                      animation: `fall ${animationDuration} ease-in forwards`,
+                      animationDelay
+                    }}
+                  />
+                );
+              })}
             </div>
           )}
           
