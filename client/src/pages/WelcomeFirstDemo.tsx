@@ -26,15 +26,7 @@ const WelcomeFirstDemo = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
   
-  // Show confetti when the flipbook is first opened
-  useEffect(() => {
-    if (isOpen) {
-      setShowConfetti(true);
-      setTimeout(() => {
-        setShowConfetti(false);
-      }, 4000);
-    }
-  }, [isOpen]);
+  // No confetti on initial open - we'll show it when going to the title page instead
   
   // Sample messages for the demo
   const messages = [
@@ -95,7 +87,7 @@ const WelcomeFirstDemo = () => {
     if (currentPage < totalPages - 1) {
       setCurrentPage(currentPage + 1);
       
-      // Show confetti when opening the book
+      // Show confetti when going to title page (from welcome message)
       if (currentPage === 0) {
         setShowConfetti(true);
         setTimeout(() => {
