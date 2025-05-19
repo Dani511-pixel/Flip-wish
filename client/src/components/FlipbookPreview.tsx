@@ -27,7 +27,16 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
   const currentMessage = totalMessages > 0 && currentIndex >= 0 ? messages[currentIndex] : null;
 
   const goToPrevious = () => {
-    setCurrentIndex((prev) => (prev === -1 ? totalMessages - 1 : prev - 1));
+    if (currentIndex === -1) {
+      // From cover, go to promo page
+      setCurrentIndex(totalMessages);
+    } else if (currentIndex === 0) {
+      // From first message, go to cover
+      setCurrentIndex(-1);
+    } else {
+      // From any other page, go back one
+      setCurrentIndex(currentIndex - 1);
+    }
   };
 
   const goToNext = () => {
@@ -46,16 +55,23 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
         setHasShownWelcome(true);
       }
     } else if (currentIndex < totalMessages - 1) {
-      // Move to next message
+      // Move to next regular message
       setCurrentIndex(currentIndex + 1);
-    } else {
-      // From last message, go back to cover
+    } else if (currentIndex === totalMessages - 1) {
+      // From last message, go to promo page
+      setCurrentIndex(totalMessages);
+    } else if (currentIndex === totalMessages) {
+      // From promo page, go back to cover
       setCurrentIndex(-1);
     }
   };
   
-  // Determine if we should show the last page (after all messages)
-  const isLastPage = currentIndex === totalMessages - 1;
+  // Custom index to include a final "promotional" page after all messages
+  // -1: Cover page
+  // 0 to totalMessages-1: Regular message pages
+  // totalMessages: Final promo page
+  const isLastMessagePage = currentIndex === totalMessages - 1;
+  const isPromoPage = currentIndex === totalMessages;
 
   const toggleAutoPlay = () => {
     setIsPlaying(!isPlaying);
@@ -67,7 +83,7 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
     
     if (isPlaying) {
       interval = setInterval(() => {
-        // Sequentially move through messages and then back to cover
+        // Sequentially move through messages, promo page, and then back to cover
         if (currentIndex === -1) {
           // Start at first message
           setCurrentIndex(0);
@@ -79,6 +95,9 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
         } else if (currentIndex < totalMessages - 1) {
           // Go to next message
           setCurrentIndex(currentIndex + 1);
+        } else if (currentIndex === totalMessages - 1) {
+          // Go to promo page
+          setCurrentIndex(totalMessages);
         } else {
           // Go back to cover
           setCurrentIndex(-1);
@@ -209,25 +228,27 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
                     </div>
                   </CardContent>
                 </Card>
+              ) : isPromoPage ? (
+                // Promotional final page
+                <Card className="overflow-hidden border border-gray-100 shadow-lg">
+                  <CardContent className="p-6 h-72 flex flex-col justify-center items-center bg-white">
+                    <h2 className="text-2xl font-bold text-center text-primary mb-6">
+                      Do you know someone who deserves a FlipWish?
+                    </h2>
+                    <p className="text-center text-gray-600 mb-8">
+                      Create a special memory collection for someone in your life.
+                    </p>
+                    <a 
+                      href="/" 
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors"
+                    >
+                      Start Your Own FlipWish
+                    </a>
+                  </CardContent>
+                </Card>
               ) : currentMessage && (
                 // Message Cards
-                <div className="relative">
-                  <MessageCard message={currentMessage} isFlipbook={true} />
-                  
-                  {/* Final page CTA */}
-                  {isLastPage && (
-                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-white to-transparent pt-16 pb-4 px-4">
-                      <div className="text-center">
-                        <a 
-                          href="/" 
-                          className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium text-sm"
-                        >
-                          Do you know someone who deserves a FlipWish?
-                        </a>
-                      </div>
-                    </div>
-                  )}
-                </div>
+                <MessageCard message={currentMessage} isFlipbook={true} />
               )}
             </div>
             
@@ -246,6 +267,8 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
           <div className="text-sm text-gray-500">
             {currentIndex === -1 ? (
               <span>Cover Page</span>
+            ) : isPromoPage ? (
+              <span>Final Page</span>
             ) : (
               <>Card <span className="font-medium">{currentIndex + 1}</span> of <span className="font-medium">{totalMessages}</span></>
             )}
