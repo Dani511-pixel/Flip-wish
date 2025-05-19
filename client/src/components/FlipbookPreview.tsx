@@ -65,9 +65,9 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
     
     // Always move sequentially through messages
     if (currentIndex === -1) {
-      // From cover page, always go to first message
+      // From cover page, go to welcome message
       setCurrentIndex(0);
-      // Trigger confetti animation when turning from cover to first page
+      // Trigger confetti animation when turning from cover to welcome page
       setShowConfetti(true);
       setTimeout(() => {
         setShowConfetti(false);
@@ -77,24 +77,29 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
       if (!hasShownWelcome) {
         setHasShownWelcome(true);
       }
-    } else if (currentIndex < totalMessages - 1) {
+    } else if (currentIndex === 0) {
+      // From welcome message, go to first regular message
+      setCurrentIndex(1);
+    } else if (currentIndex < totalMessages) {
       // Move to next regular message
       setCurrentIndex(currentIndex + 1);
-    } else if (currentIndex === totalMessages - 1) {
-      // From last message, go to promo page
-      setCurrentIndex(totalMessages);
     } else if (currentIndex === totalMessages) {
+      // From last message, go to promo page
+      setCurrentIndex(totalMessages + 1);
+    } else if (currentIndex === totalMessages + 1) {
       // From promo page, go back to cover
       setCurrentIndex(-1);
     }
   };
   
-  // Custom index to include a final "promotional" page after all messages
+  // Custom index to include welcome page and a final "promotional" page after all messages
   // -1: Cover page
-  // 0 to totalMessages-1: Regular message pages
-  // totalMessages: Final promo page
-  const isLastMessagePage = currentIndex === totalMessages - 1;
-  const isPromoPage = currentIndex === totalMessages;
+  // 0: Welcome message
+  // 1 to totalMessages: Regular message pages
+  // totalMessages+1: Final promo page
+  const isWelcomePage = currentIndex === 0;
+  const isLastMessagePage = currentIndex === totalMessages;
+  const isPromoPage = currentIndex === totalMessages + 1;
 
   const toggleAutoPlay = () => {
     setIsPlaying(!isPlaying);
@@ -108,19 +113,22 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
       interval = setInterval(() => {
         // Sequentially move through messages, promo page, and then back to cover
         if (currentIndex === -1) {
-          // Start at first message
+          // Start with welcome message
           setCurrentIndex(0);
-          // Trigger confetti animation when turning from cover to first page
+          // Trigger confetti animation when turning from cover to welcome page
           setShowConfetti(true);
           setTimeout(() => {
             setShowConfetti(false);
           }, 5000); // Display confetti for 5 seconds
-        } else if (currentIndex < totalMessages - 1) {
+        } else if (currentIndex === 0) {
+          // Go to first regular message
+          setCurrentIndex(1);
+        } else if (currentIndex < totalMessages) {
           // Go to next message
           setCurrentIndex(currentIndex + 1);
-        } else if (currentIndex === totalMessages - 1) {
+        } else if (currentIndex === totalMessages) {
           // Go to promo page
-          setCurrentIndex(totalMessages);
+          setCurrentIndex(totalMessages + 1);
         } else {
           // Go back to cover
           setCurrentIndex(-1);
@@ -263,7 +271,7 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
                         </div>
                       </CardContent>
                     </Card>
-                  ) : currentIndex === 0 ? (
+                  ) : isWelcomePage ? (
                     // Welcome Message (First Page)
                     <Card className="overflow-hidden border border-gray-100 shadow-lg">
                       <CardContent className="p-6 h-full flex flex-col justify-center bg-white">
@@ -294,9 +302,9 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
                         </a>
                       </CardContent>
                     </Card>
-                  ) : currentMessage && (
-                    // Message Cards
-                    <MessageCard message={currentMessage} isFlipbook={true} />
+                  ) : currentIndex >= 1 && currentIndex <= totalMessages && messages[currentIndex - 1] ? (
+                    // Message Cards (offset by 1 because index 0 is now welcome page)
+                    <MessageCard message={messages[currentIndex - 1]} isFlipbook={true} />
                   )}
                 </motion.div>
               </AnimatePresence>
