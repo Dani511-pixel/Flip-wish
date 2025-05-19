@@ -199,7 +199,7 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
               <ChevronLeft className="h-6 w-6" />
             </button>
             
-            <div className="w-64 sm:w-80 md:w-96 relative overflow-hidden">
+            <div className="w-64 sm:w-80 md:w-96 relative overflow-hidden perspective-[1000px]">
               {currentIndex === -1 ? (
                 // Cover Page
                 <Card className="overflow-hidden border border-gray-100 shadow-lg">
