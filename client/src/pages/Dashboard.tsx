@@ -316,7 +316,7 @@ const Dashboard = () => {
       )}
       
       {/* Tab Navigation */}
-      <Tabs defaultValue="messages" className="mb-8">
+      <Tabs defaultValue="collections" className="mb-8">
         <TabsList className="mb-4">
           <TabsTrigger value="messages">Messages</TabsTrigger>
           <TabsTrigger value="collections">Collections</TabsTrigger>
@@ -382,7 +382,7 @@ const Dashboard = () => {
             <Link href="/create-collection">
               <Button>
                 <Plus className="h-4 w-4 mr-2" />
-                Create New
+                Create a new FlipWish
               </Button>
             </Link>
           </div>
