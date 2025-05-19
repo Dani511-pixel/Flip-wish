@@ -5,6 +5,7 @@ import { ChevronLeft, ChevronRight, Play, Pause, Download, X } from "lucide-reac
 import MessageCard from "./MessageCard";
 import Confetti from "react-confetti";
 import { motion, AnimatePresence } from "framer-motion";
+import pageFlipSound from "../assets/page-flip.mp3";
 
 interface FlipbookPreviewProps {
   isOpen: boolean;
@@ -24,13 +25,24 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
   const confettiContainerRef = useRef<HTMLDivElement>(null);
   const [confettiDimensions, setConfettiDimensions] = useState({ width: 0, height: 0 });
   const [direction, setDirection] = useState(0); // -1 for left, 1 for right
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const totalMessages = messages.length;
   const currentMessage = totalMessages > 0 && currentIndex >= 0 ? messages[currentIndex] : null;
 
+  const playPageFlipSound = () => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = 0;
+      audioRef.current.play().catch(err => console.error("Error playing audio:", err));
+    }
+  };
+
   const goToPrevious = () => {
     // Set direction for animation (going backwards/left)
     setDirection(-1);
+    
+    // Play page flip sound
+    playPageFlipSound();
     
     if (currentIndex === -1) {
       // From cover, go to promo page
@@ -47,6 +59,9 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
   const goToNext = () => {
     // Set direction for animation (going forwards/right)
     setDirection(1);
+    
+    // Play page flip sound
+    playPageFlipSound();
     
     // Always move sequentially through messages
     if (currentIndex === -1) {
@@ -148,6 +163,9 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" ref={confettiContainerRef}>
+      {/* Hidden audio element for page flip sound */}
+      <audio ref={audioRef} src={pageFlipSound} preload="auto" />
+      
       {showConfetti && (
         <Confetti
           width={confettiDimensions.width}
