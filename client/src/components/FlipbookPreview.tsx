@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Message } from "@shared/schema";
 import { Card, CardContent } from "@/components/ui/card";
 import { ChevronLeft, ChevronRight, Play, Pause, Download, X } from "lucide-react";
 import MessageCard from "./MessageCard";
+import Confetti from "react-confetti";
 
 interface FlipbookPreviewProps {
   isOpen: boolean;
@@ -17,6 +18,10 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
   const [isPlaying, setIsPlaying] = useState(false);
   const [customTitle, setCustomTitle] = useState(title);
   const [customDate, setCustomDate] = useState(new Date().toLocaleDateString());
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [hasShownWelcome, setHasShownWelcome] = useState(false);
+  const confettiContainerRef = useRef<HTMLDivElement>(null);
+  const [confettiDimensions, setConfettiDimensions] = useState({ width: 0, height: 0 });
 
   const totalMessages = messages.length;
   const currentMessage = totalMessages > 0 && currentIndex >= 0 ? messages[currentIndex] : null;
@@ -30,6 +35,16 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
     if (currentIndex === -1) {
       // From cover page, always go to first message
       setCurrentIndex(0);
+      // Trigger confetti animation when turning from cover to first page
+      setShowConfetti(true);
+      setTimeout(() => {
+        setShowConfetti(false);
+      }, 5000); // Display confetti for 5 seconds
+      
+      // Show welcome message only once
+      if (!hasShownWelcome) {
+        setHasShownWelcome(true);
+      }
     } else if (currentIndex < totalMessages - 1) {
       // Move to next message
       setCurrentIndex(currentIndex + 1);
@@ -53,6 +68,11 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
         if (currentIndex === -1) {
           // Start at first message
           setCurrentIndex(0);
+          // Trigger confetti animation when turning from cover to first page
+          setShowConfetti(true);
+          setTimeout(() => {
+            setShowConfetti(false);
+          }, 5000); // Display confetti for 5 seconds
         } else if (currentIndex < totalMessages - 1) {
           // Go to next message
           setCurrentIndex(currentIndex + 1);
@@ -67,11 +87,45 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
       if (interval) clearInterval(interval);
     };
   }, [isPlaying, currentIndex, totalMessages]);
+  
+  // Calculate confetti dimensions
+  useEffect(() => {
+    if (confettiContainerRef.current && isOpen) {
+      const resizeObserver = new ResizeObserver(() => {
+        if (confettiContainerRef.current) {
+          setConfettiDimensions({
+            width: confettiContainerRef.current.clientWidth,
+            height: confettiContainerRef.current.clientHeight
+          });
+        }
+      });
+      
+      resizeObserver.observe(confettiContainerRef.current);
+      
+      // Initial dimensions
+      setConfettiDimensions({
+        width: confettiContainerRef.current.clientWidth,
+        height: confettiContainerRef.current.clientHeight
+      });
+      
+      return () => {
+        resizeObserver.disconnect();
+      };
+    }
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" ref={confettiContainerRef}>
+      {showConfetti && (
+        <Confetti
+          width={confettiDimensions.width}
+          height={confettiDimensions.height}
+          recycle={false}
+          numberOfPieces={200}
+        />
+      )}
       <div className="w-[90vw] max-w-4xl bg-white rounded-lg overflow-hidden flex flex-col shadow-xl">
         {/* Header */}
         <div className="bg-white text-gray-800 px-6 py-4 border-b flex justify-between items-center">
