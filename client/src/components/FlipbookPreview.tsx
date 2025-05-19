@@ -228,11 +228,7 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
                       You've been sent a FlipWish. Your friends, colleagues or team mates have got together to share their wishes for you today.
                     </p>
                     <div className="text-center">
-                      <p className="text-sm text-gray-500 mb-2">Use the arrows to navigate through your messages</p>
-                      <div className="flex justify-center space-x-6 mb-4">
-                        <ChevronLeft className="h-5 w-5 text-primary" />
-                        <ChevronRight className="h-5 w-5 text-primary" />
-                      </div>
+                      <p className="text-sm text-gray-500 mb-4">Use the arrows on either side to navigate through your messages</p>
                     </div>
                   </CardContent>
                 </Card>
