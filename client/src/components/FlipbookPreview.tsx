@@ -157,6 +157,9 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
                 <Card className="overflow-hidden border border-gray-100 shadow-lg">
                   <CardContent className="p-4 h-full flex flex-col justify-between bg-white">
                     <div className="flex-grow flex flex-col items-center justify-center p-4">
+                      <div className="bg-primary/10 px-4 py-2 rounded-md mb-6">
+                        <h3 className="text-primary text-lg font-medium">FlipWish Book</h3>
+                      </div>
                       <h1 className="text-4xl font-cursive font-bold text-center mb-4">
                         {customTitle}
                       </h1>
@@ -183,6 +186,23 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
                       <p className="text-sm text-gray-600">
                         Created on {customDate}
                       </p>
+                    </div>
+                  </CardContent>
+                </Card>
+              ) : currentIndex === 0 ? (
+                // Welcome Message (First Page)
+                <Card className="overflow-hidden border border-gray-100 shadow-lg">
+                  <CardContent className="p-6 h-full flex flex-col justify-center bg-white">
+                    <h2 className="text-2xl font-semibold text-center text-primary mb-4">Welcome to your FlipWish!</h2>
+                    <p className="text-center mb-4">
+                      You've been sent a FlipWish. Your friends, colleagues or team mates have got together to share their wishes for you today.
+                    </p>
+                    <div className="text-center">
+                      <p className="text-sm text-gray-500 mb-2">Use the arrows to navigate through your messages</p>
+                      <div className="flex justify-center space-x-6 mb-4">
+                        <ChevronLeft className="h-5 w-5 text-primary" />
+                        <ChevronRight className="h-5 w-5 text-primary" />
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
