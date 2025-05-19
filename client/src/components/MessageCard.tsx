@@ -15,11 +15,7 @@ const MessageCard = ({ message, className = "", isFlipbook = false }: MessageCar
     <Card className={`overflow-hidden border border-gray-100 hover:shadow-md transition ${className} ${isFlipbook ? 'h-full flex flex-col justify-between' : ''}`}>
       <CardContent className={`p-4 ${isFlipbook ? 'h-full flex flex-col' : ''}`}>
         <div className={`${isFlipbook ? 'flex-grow flex flex-col items-center justify-center p-2 sm:p-4' : ''}`}>
-          {isFlipbook && (
-            <div className="text-sm text-gray-600 font-medium mb-3">
-              From: {message.fromName}
-            </div>
-          )}
+          {/* Removed duplicate "From" line since we already show it at the bottom */}
           <p className={`${isFlipbook ? 'text-center text-base sm:text-lg md:text-xl leading-relaxed' : ''} text-gray-800 mb-2 sm:mb-4`}>
             "{message.content}"
           </p>
@@ -41,7 +37,7 @@ const MessageCard = ({ message, className = "", isFlipbook = false }: MessageCar
             )}
             {isFlipbook ? (
               <div className="font-bold text-sm text-primary">
-                - {message.fromName}
+                From: {message.fromName}
               </div>
             ) : (
               <div className="text-xs text-gray-500">{formatTimeAgo(message.createdAt)}</div>
