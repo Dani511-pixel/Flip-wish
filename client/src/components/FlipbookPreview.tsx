@@ -302,9 +302,11 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
                         </a>
                       </CardContent>
                     </Card>
-                  ) : currentIndex >= 1 && currentIndex <= totalMessages && messages[currentIndex - 1] ? (
+                  ) : (
                     // Message Cards (offset by 1 because index 0 is now welcome page)
-                    <MessageCard message={messages[currentIndex - 1]} isFlipbook={true} />
+                    currentIndex >= 1 && currentIndex <= totalMessages && messages[currentIndex - 1] ? 
+                    <MessageCard message={messages[currentIndex - 1]} isFlipbook={true} /> :
+                    <div className="p-6 text-center">No message found</div>
                   )}
                 </motion.div>
               </AnimatePresence>
