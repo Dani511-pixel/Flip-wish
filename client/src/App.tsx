@@ -7,6 +7,7 @@ import CreateCollection from "@/pages/CreateCollection";
 import Dashboard from "@/pages/Dashboard";
 import MessageSubmission from "@/pages/MessageSubmission";
 import ViewFlipbook from "@/pages/ViewFlipbook";
+import DemoFlipbook from "@/pages/DemoFlipbook";
 import Register from "@/pages/Register";
 import Login from "@/pages/Login";
 import NavBar from "@/components/NavBar";
@@ -28,6 +29,7 @@ function Router() {
       <Route path="/flipbook/:id">
         {params => <ViewFlipbook id={parseInt(params.id)} />}
       </Route>
+      <Route path="/demo" component={DemoFlipbook} />
       <Route path="/:rest*" component={NotFound} />
     </Switch>
   );
