@@ -382,7 +382,7 @@ const Dashboard = () => {
             <Link href="/create-collection">
               <Button>
                 <Plus className="h-4 w-4 mr-2" />
-                Create a new FlipWish
+                Open a new FlipWish book
               </Button>
             </Link>
           </div>
