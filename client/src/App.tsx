@@ -8,6 +8,7 @@ import Dashboard from "@/pages/Dashboard";
 import MessageSubmission from "@/pages/MessageSubmission";
 import ViewFlipbook from "@/pages/ViewFlipbook";
 import DemoFlipbook from "@/pages/DemoFlipbook";
+import WelcomeFirstDemo from "@/pages/WelcomeFirstDemo";
 import Register from "@/pages/Register";
 import Login from "@/pages/Login";
 import NavBar from "@/components/NavBar";
@@ -30,6 +31,7 @@ function Router() {
         {params => <ViewFlipbook id={parseInt(params.id)} />}
       </Route>
       <Route path="/demo" component={DemoFlipbook} />
+      <Route path="/welcome-demo" component={WelcomeFirstDemo} />
       <Route path="/:rest*" component={NotFound} />
     </Switch>
   );
