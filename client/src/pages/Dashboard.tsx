@@ -147,8 +147,8 @@ const Dashboard = () => {
   const handleSendFlipWish = () => {
     if (shareMethod === "email" && recipientEmail) {
       // In a real app, this would send an email via API
-      const subject = encodeURIComponent(`View your FlipWish greeting: ${currentCollection?.title}`);
-      const body = encodeURIComponent(`Hello,\n\nYou've received a FlipWish greeting from a friend. View it here: ${window.location.origin}/flipbook/1\n\nEnjoy!`);
+      const subject = encodeURIComponent(`Your FlipWish book: ${currentCollection?.title}`);
+      const body = encodeURIComponent(`Hello,\n\nYou've been sent a FlipWish. Your friends, colleagues or team mates have got together to share their wishes for you today.\n\nClick below to open your FlipWish book:\n${window.location.origin}/flipbook/1\n\nEnjoy!`);
       window.open(`mailto:${recipientEmail}?subject=${subject}&body=${body}`);
       toast({
         title: "Email ready to send!",
@@ -157,7 +157,7 @@ const Dashboard = () => {
     } else if (shareMethod === "whatsapp" && recipientPhone) {
       // Format the phone number by removing any non-digit characters
       const formattedPhone = recipientPhone.replace(/\D/g, '');
-      const message = encodeURIComponent(`You've received a FlipWish greeting! View it here: ${window.location.origin}/flipbook/1`);
+      const message = encodeURIComponent(`You've been sent a FlipWish. Your friends, colleagues or team mates have got together to share their wishes for you today.\n\nClick below to open your FlipWish book:\n${window.location.origin}/flipbook/1`);
       window.open(`https://wa.me/${formattedPhone}?text=${message}`);
       toast({
         title: "WhatsApp ready!",
@@ -216,7 +216,7 @@ const Dashboard = () => {
                   onClick={() => setSendModalOpen(true)}
                 >
                   <Share2 className="mr-2 h-4 w-4" />
-                  Send Greeting
+                  Send your FlipWish book
                 </Button>
               </div>
             </div>
@@ -494,9 +494,9 @@ const Dashboard = () => {
       <Dialog open={sendModalOpen} onOpenChange={setSendModalOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Send Your FlipWish Greeting</DialogTitle>
+            <DialogTitle>Send Your FlipWish Book</DialogTitle>
             <DialogDescription>
-              Share your personalized greeting via email or WhatsApp.
+              Share your personalized FlipWish book via email or WhatsApp.
             </DialogDescription>
           </DialogHeader>
           
@@ -551,7 +551,7 @@ const Dashboard = () => {
           <DialogFooter>
             <Button onClick={handleSendFlipWish} className="w-full">
               <Send className="mr-2 h-4 w-4" />
-              Send Greeting
+              Send your FlipWish book
             </Button>
           </DialogFooter>
         </DialogContent>
