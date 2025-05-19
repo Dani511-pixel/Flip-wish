@@ -226,9 +226,9 @@ const WelcomeFirstDemo = () => {
         Open FlipWish Book
       </Button>
       
-      {/* Audio element for soft page flip sound */}
+      {/* Audio element for very short, deep, subtle page flip sound */}
       <audio ref={audioRef} preload="auto">
-        <source src="https://assets.mixkit.co/active_storage/sfx/1998/1998-preview.mp3" type="audio/mpeg" />
+        <source src="https://assets.mixkit.co/active_storage/sfx/209/209-preview.mp3" type="audio/mpeg" />
         Your browser does not support the audio element.
       </audio>
       
