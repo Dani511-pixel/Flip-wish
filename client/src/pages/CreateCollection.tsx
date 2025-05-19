@@ -91,16 +91,16 @@ const CreateCollection = () => {
   return (
     <div className="max-w-3xl mx-auto px-4 py-12">
       <div className="mb-8 text-center">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Create Your FlipWish Collection</h1>
-        <p className="text-gray-600">Collect meaningful messages from loved ones and transform them into a beautiful flipbook</p>
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">Create your next FlipWish book</h1>
+        <p className="text-gray-600">Start a FlipWish and collect meaningful messages from team members, classes and friends. Transform them into a beautiful flipbook and make someone's day.</p>
       </div>
 
       {!isCreated ? (
         <Card className="border-none shadow-md">
           <CardHeader className="bg-gradient-to-r from-primary/10 to-primary/5 rounded-t-lg">
-            <CardTitle className="text-2xl">New Message Collection</CardTitle>
+            <CardTitle className="text-2xl">Set up your FlipWish</CardTitle>
             <CardDescription>
-              Set up a new message collection for your special occasion
+              Tell us about who you're celebrating and what the occasion is. Set a deadline and send for free or upgrade for an extra special FlipWish experience. 
             </CardDescription>
           </CardHeader>
           <CardContent className="pt-6">
