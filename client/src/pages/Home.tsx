@@ -22,14 +22,14 @@ const Home = () => {
                 Share a link or QR code to collect heartfelt messages from friends and family, then transform them into an animated flipbook.
               </p>
               <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-                <Link href="/create-collection">
+                <Link href="/register">
                   <Button size="lg" className="text-base px-8">
-                    Get Started for Free
+                    Start your FlipWish book for free
                   </Button>
                 </Link>
-                <Link href="/register">
+                <Link href="/login">
                   <Button size="lg" variant="outline" className="text-base px-8">
-                    Sign Up
+                    Log in
                   </Button>
                 </Link>
               </div>
@@ -237,14 +237,14 @@ const Home = () => {
               Create your first collection in minutes and start gathering heartfelt messages today.
             </p>
             <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-              <Link href="/create-collection">
+              <Link href="/register">
                 <Button size="lg" className="text-base px-8">
-                  Get Started for Free
+                  Start your FlipWish book for free
                 </Button>
               </Link>
-              <Link href="/register">
+              <Link href="/login">
                 <Button size="lg" variant="outline" className="text-base px-8">
-                  Sign Up
+                  Log in
                 </Button>
               </Link>
             </div>

@@ -40,10 +40,7 @@ const NavBar = () => {
                 <Button variant="outline">Log in</Button>
               </Link>
               <Link href="/register">
-                <Button variant="outline">Sign up</Button>
-              </Link>
-              <Link href="/create-collection">
-                <Button>Get Started For Free</Button>
+                <Button>Start your FlipWish book for free</Button>
               </Link>
             </div>
           </div>
