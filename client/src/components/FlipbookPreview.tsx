@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ChevronLeft, ChevronRight, Play, Pause, Download, X } from "lucide-react";
 import MessageCard from "./MessageCard";
 import Confetti from "react-confetti";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface FlipbookPreviewProps {
   isOpen: boolean;
@@ -22,11 +23,15 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
   const [hasShownWelcome, setHasShownWelcome] = useState(false);
   const confettiContainerRef = useRef<HTMLDivElement>(null);
   const [confettiDimensions, setConfettiDimensions] = useState({ width: 0, height: 0 });
+  const [direction, setDirection] = useState(0); // -1 for left, 1 for right
 
   const totalMessages = messages.length;
   const currentMessage = totalMessages > 0 && currentIndex >= 0 ? messages[currentIndex] : null;
 
   const goToPrevious = () => {
+    // Set direction for animation (going backwards/left)
+    setDirection(-1);
+    
     if (currentIndex === -1) {
       // From cover, go to promo page
       setCurrentIndex(totalMessages);
@@ -40,6 +45,9 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
   };
 
   const goToNext = () => {
+    // Set direction for animation (going forwards/right)
+    setDirection(1);
+    
     // Always move sequentially through messages
     if (currentIndex === -1) {
       // From cover page, always go to first message
@@ -173,7 +181,7 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
               <ChevronLeft className="h-6 w-6" />
             </button>
             
-            <div className="w-64 sm:w-80 md:w-96 relative">
+            <div className="w-64 sm:w-80 md:w-96 relative overflow-hidden">
               {currentIndex === -1 ? (
                 // Cover Page
                 <Card className="overflow-hidden border border-gray-100 shadow-lg">
