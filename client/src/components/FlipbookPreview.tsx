@@ -53,6 +53,9 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
       setCurrentIndex(-1);
     }
   };
+  
+  // Determine if we should show the last page (after all messages)
+  const isLastPage = currentIndex === totalMessages - 1;
 
   const toggleAutoPlay = () => {
     setIsPlaying(!isPlaying);
@@ -208,7 +211,23 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
                 </Card>
               ) : currentMessage && (
                 // Message Cards
-                <MessageCard message={currentMessage} isFlipbook={true} />
+                <div className="relative">
+                  <MessageCard message={currentMessage} isFlipbook={true} />
+                  
+                  {/* Final page CTA */}
+                  {isLastPage && (
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-white to-transparent pt-16 pb-4 px-4">
+                      <div className="text-center">
+                        <a 
+                          href="/" 
+                          className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium text-sm"
+                        >
+                          Do you know someone who deserves a FlipWish?
+                        </a>
+                      </div>
+                    </div>
+                  )}
+                </div>
               )}
             </div>
             
