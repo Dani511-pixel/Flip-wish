@@ -12,6 +12,16 @@ const WelcomeFirstDemo = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
   
+  // Show confetti when the flipbook is first opened
+  useEffect(() => {
+    if (isOpen) {
+      setShowConfetti(true);
+      setTimeout(() => {
+        setShowConfetti(false);
+      }, 4000);
+    }
+  }, [isOpen]);
+  
   // Sample messages for the demo
   const messages = [
     {
