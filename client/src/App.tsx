@@ -9,6 +9,7 @@ import MessageSubmission from "@/pages/MessageSubmission";
 import ViewFlipbook from "@/pages/ViewFlipbook";
 import DemoFlipbook from "@/pages/DemoFlipbook";
 import WelcomeFirstDemo from "@/pages/WelcomeFirstDemo";
+import AdminPanel from "@/pages/AdminPanel";
 import Register from "@/pages/Register";
 import Login from "@/pages/Login";
 import NavBar from "@/components/NavBar";
@@ -32,6 +33,7 @@ function Router() {
       </Route>
       <Route path="/demo" component={DemoFlipbook} />
       <Route path="/welcome-demo" component={WelcomeFirstDemo} />
+      <Route path="/admin" component={AdminPanel} />
       <Route path="/:rest*" component={NotFound} />
     </Switch>
   );
