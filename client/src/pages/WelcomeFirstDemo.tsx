@@ -26,6 +26,10 @@ const WelcomeFirstDemo = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
   
+  // Refs for audio
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const celebrationAudioRef = useRef<HTMLAudioElement>(null);
+  
   // No confetti on initial open - we'll show it when going to the title page instead
   
   // Sample messages for the demo
@@ -55,12 +59,20 @@ const WelcomeFirstDemo = () => {
   // Get total number of pages: welcome, title, messages, promo
   const totalPages = messages.length + 3;
   
-  // Play audio when navigating
-  const audioRef = useRef<HTMLAudioElement>(null);
+  // Play audio functions
   const playPageFlipSound = () => {
     if (audioRef.current) {
       audioRef.current.currentTime = 0;
+      audioRef.current.volume = 0.5; // Lower volume for subtlety
       audioRef.current.play().catch(err => console.error("Error playing audio:", err));
+    }
+  };
+  
+  const playCelebrationSound = () => {
+    if (celebrationAudioRef.current) {
+      celebrationAudioRef.current.currentTime = 0;
+      celebrationAudioRef.current.volume = 0.6; // Set appropriate volume
+      celebrationAudioRef.current.play().catch(err => console.error("Error playing celebration audio:", err));
     }
   };
   
@@ -90,6 +102,15 @@ const WelcomeFirstDemo = () => {
       // Show confetti when going to title page (from welcome message)
       if (currentPage === 0) {
         setShowConfetti(true);
+        
+        // Play celebration sound
+        const celebrationSound = document.getElementById("celebration-sound") as HTMLAudioElement;
+        if (celebrationSound) {
+          celebrationSound.volume = 0.6;
+          celebrationSound.currentTime = 0;
+          celebrationSound.play().catch(err => console.error("Error playing celebration sound:", err));
+        }
+        
         setTimeout(() => {
           setShowConfetti(false);
         }, 3000);
@@ -235,8 +256,13 @@ const WelcomeFirstDemo = () => {
         Open FlipWish Book
       </Button>
       
-      {/* Audio element for very subtle page flip sound */}
+      {/* Audio elements for sounds */}
       <audio ref={audioRef} src="https://assets.mixkit.co/active_storage/sfx/2619/2619-preview.mp3" preload="auto">
+        Your browser does not support the audio element.
+      </audio>
+      
+      {/* Celebration sound for confetti */}
+      <audio id="celebration-sound" src="https://assets.mixkit.co/active_storage/sfx/1993/1993-preview.mp3" preload="auto">
         Your browser does not support the audio element.
       </audio>
       
