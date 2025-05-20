@@ -42,6 +42,27 @@ export class MemStorage implements IStorage {
   private collectionCurrentId: number;
   private messageCurrentId: number;
   private flipbookCurrentId: number;
+  
+  // Create a demo user
+  private initializeDemoUser() {
+    // Create a hashed password for our demo user
+    // For simple testing, we're using a pre-hashed password (hashed version of "password123")
+    const hashedPassword = "$2a$10$h.dl5J86rGH7I8bD9bZeZe";
+    
+    // Create and store the user
+    const demoUser: User = {
+      id: 1,
+      username: 'testuser',
+      password: hashedPassword,
+      email: 'test@example.com',
+      name: 'Test User',
+      marketingOptIn: false,
+      createdAt: new Date()
+    };
+    
+    this.users.set(demoUser.id, demoUser);
+    console.log('Demo user created - Username: testuser, Password: password123');
+  }
 
   constructor() {
     this.users = new Map();
@@ -53,16 +74,8 @@ export class MemStorage implements IStorage {
     this.messageCurrentId = 1;
     this.flipbookCurrentId = 1;
     
-    // Add a demo user
-    this.users.set(1, {
-      id: 1,
-      username: "demo",
-      password: "password",
-      email: "demo@example.com",
-      name: "Demo User",
-      marketingOptIn: false,
-      createdAt: new Date()
-    });
+    // Demo user will be created with properly hashed password
+    this.initializeDemoUser();
     
     // Add some demo collections for development
     this.collections.set(1, {

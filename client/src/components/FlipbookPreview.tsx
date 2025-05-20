@@ -33,6 +33,7 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
   const playPageFlipSound = () => {
     if (audioRef.current) {
       audioRef.current.currentTime = 0;
+      audioRef.current.volume = 0.5; // Lower volume for subtlety
       audioRef.current.play().catch(err => console.error("Error playing audio:", err));
     }
   };
@@ -172,7 +173,7 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" ref={confettiContainerRef}>
       {/* Hidden audio element for page flip sound */}
-      <audio ref={audioRef} src={pageFlipSound} preload="auto" />
+      <audio ref={audioRef} src="https://assets.mixkit.co/active_storage/sfx/212/212-preview.mp3" preload="auto" />
       
       {showConfetti && (
         <Confetti
