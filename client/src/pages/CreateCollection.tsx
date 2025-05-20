@@ -231,7 +231,7 @@ const CreateCollection = () => {
                     <FormLabel className="text-base">Collection Plan</FormLabel>
                     <TabsList>
                       <TabsTrigger value="standard">Free</TabsTrigger>
-                      <TabsTrigger value="premium">Premium</TabsTrigger>
+                      <TabsTrigger value="premium" className="bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:text-white data-[state=active]:text-white data-[state=active]:bg-gradient-to-r">Premium</TabsTrigger>
                     </TabsList>
                   </div>
                   
@@ -270,39 +270,45 @@ const CreateCollection = () => {
                   </TabsContent>
                   
                   <TabsContent value="premium" className="mt-0">
-                    <Card>
+                    <Card className="border-purple-200 bg-gradient-to-br from-white to-purple-50">
                       <CardContent className="pt-6">
                         <div className="flex items-start justify-between">
                           <div>
-                            <h3 className="font-medium">Premium Plan</h3>
-                            <p className="text-sm text-gray-500">Enhanced flipbook with voice messages</p>
+                            <h3 className="font-medium text-purple-700">Premium Plan</h3>
+                            <p className="text-sm text-purple-600">Enhanced flipbook with voice messages</p>
                           </div>
-                          <p className="text-lg font-bold">Coming Soon</p>
+                          <p className="px-3 py-1 rounded-full bg-purple-100 text-purple-700 font-bold text-sm">Coming Soon</p>
                         </div>
                         <ul className="mt-4 space-y-2 text-sm">
                           <li className="flex items-center">
-                            <svg className="h-4 w-4 text-primary mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg className="h-4 w-4 text-pink-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
-                            All free features plus:
+                            <span className="text-purple-800">All free features plus:</span>
                           </li>
                           <li className="flex items-center">
-                            <svg className="h-4 w-4 text-primary mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg className="h-4 w-4 text-pink-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
                             Voice message recording
                           </li>
                           <li className="flex items-center">
-                            <svg className="h-4 w-4 text-primary mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg className="h-4 w-4 text-pink-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
                             Audio playback in flipbook
                           </li>
                           <li className="flex items-center">
-                            <svg className="h-4 w-4 text-primary mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg className="h-4 w-4 text-pink-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                             </svg>
                             Premium design templates
+                          </li>
+                          <li className="flex items-center">
+                            <svg className="h-4 w-4 text-pink-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                            Priority support
                           </li>
                         </ul>
                       </CardContent>
