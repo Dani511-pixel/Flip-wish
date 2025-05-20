@@ -172,8 +172,8 @@ const FlipbookPreview = ({ isOpen, onClose, title, messages, theme = "standard" 
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" ref={confettiContainerRef}>
-      {/* Hidden audio element for page flip sound */}
-      <audio ref={audioRef} src="https://assets.mixkit.co/active_storage/sfx/212/212-preview.mp3" preload="auto" />
+      {/* Hidden audio element for subtle page flip sound */}
+      <audio ref={audioRef} src="https://assets.mixkit.co/active_storage/sfx/2619/2619-preview.mp3" preload="auto" />
       
       {showConfetti && (
         <Confetti
