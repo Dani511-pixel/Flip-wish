@@ -261,8 +261,8 @@ const WelcomeFirstDemo = () => {
         Your browser does not support the audio element.
       </audio>
       
-      {/* Celebration sound for confetti */}
-      <audio id="celebration-sound" src="https://assets.mixkit.co/active_storage/sfx/1993/1993-preview.mp3" preload="auto">
+      {/* Brighter, happier celebration sound for confetti */}
+      <audio id="celebration-sound" src="https://assets.mixkit.co/active_storage/sfx/156/156-preview.mp3" preload="auto">
         Your browser does not support the audio element.
       </audio>
       
