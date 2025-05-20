@@ -236,8 +236,7 @@ const WelcomeFirstDemo = () => {
       </Button>
       
       {/* Audio element for deep, subtle page flip sound */}
-      <audio ref={audioRef} preload="auto">
-        <source src="https://www.soundjay.com/page-flip-sound-effect.mp3" type="audio/mpeg" />
+      <audio ref={audioRef} src="https://assets.mixkit.co/active_storage/sfx/212/212-preview.mp3" preload="auto">
         Your browser does not support the audio element.
       </audio>
       
