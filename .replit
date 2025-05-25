@@ -34,8 +34,3 @@ author = "agent"
 task = "shell.exec"
 args = "npm run dev"
 waitForPort = 5000
-git init
-
-
-git add.
-git commit
