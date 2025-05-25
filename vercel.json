@@ -6,18 +6,18 @@
   "installCommand": "npm install",
   "framework": null,
   "functions": {
-    "api/**/*": {
-      "runtime": "nodejs18.x"
+    "server/index.ts": {
+      "runtime": "@vercel/node@3.0.7"
     }
   },
-  "routes": [
+  "rewrites": [
     {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
+      "source": "/api/(.*)",
+      "destination": "/server/index.ts"
     },
     {
-      "src": "/(.*)",
-      "dest": "/"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
