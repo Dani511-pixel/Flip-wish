@@ -34,3 +34,6 @@ author = "agent"
 task = "shell.exec"
 args = "npm run dev"
 waitForPort = 5000
+git remote add origin https://github.com/Dani511-pixel/Flip-wish.git
+git branch -M main
+git push -u origin main
